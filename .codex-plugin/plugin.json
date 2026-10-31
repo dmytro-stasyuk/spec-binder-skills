@@ -1,0 +1,21 @@
+{
+  "name": "specbinder",
+  "version": "0.1.0",
+  "description": "Review, automate and split SpecBinder Gherkin spec files, with review findings shown in the spec editor of IntelliJ IDEA.",
+  "license": "MIT",
+  "keywords": ["gherkin", "bdd", "specbinder", "intellij", "review", "feature", "junit", "acceptance-tests"],
+  "skills": "./skills",
+  "interface": {
+    "displayName": "SpecBinder",
+    "shortDescription": "Review, automate and split SpecBinder Gherkin specs.",
+    "longDescription": "Skills for SpecBinder Gherkin spec files (.specb / .feature): review them against your project's spec-writing guidelines with the findings shown in IntelliJ IDEA's spec editor, turn them into JUnit 5 tests, restructure the spec folders, and split spec files that cover too much.",
+    "developerName": "Dmytro Stasyuk",
+    "category": "Coding",
+    "websiteURL": "https://specbinder.dev",
+    "defaultPrompt": [
+      "Review the spec file open in the IDE",
+      "Automate this spec as a JUnit test",
+      "Split this spec file into one file per Ability"
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+# Triggered when the "rc" (release candidate) tag is pushed, or run by hand from the Actions tab.
+# Automates the release:
+#   1. Works out the release version, YEAR.N.P like the IntelliJ plugin: the major part is the calendar year and
+#      the minor part counts releases, carrying on across years (a manual run can bump the patch part instead)
+#   2. Writes that version to plugin.json — this is what makes installed copies update
+#   3. Stamps CHANGELOG.md: moves the ## Unreleased entries into a ## [X.Y.Z] - YYYY-MM-DD section and leaves a
+#      fresh ## Unreleased with empty category headings above it
+#   4. Commits the release and tags it with the version number
+#   5. Pushes everything back and renames the "rc" tag to "rc_X.Y.Z"
+#   6. Creates a GitHub Release with the changelog notes
+name: Release
+
+on:
+  push:
+    tags: ['rc']
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Which part of the version to bump
+        type: choice
+        options: [minor, patch]
+        default: minor
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to push commits, tags, and create GitHub Releases
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch full history so we can push back to main
+          fetch-depth: 0
+          # GITHUB_TOKEN pushes don't trigger workflows, which avoids recursive runs
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Tag checkout leaves us in detached HEAD — switch to main so we can
+      # commit and push back to the branch
+      - name: Checkout main branch
+        run: git checkout main
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # --- Determine release version ---
+      # plugin.json holds the last released version (e.g. "2026.3.0"). The major part becomes the current year;
+      # the minor part counts releases and carries on across years (2026.7.0 → 2027.8.0), so it never goes back.
+      - name: Compute release version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump || 'minor' }}
+        run: |
+          current=$(python3 -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')
+          IFS='.' read -r major minor patch <<< "$current"
+          year=$(date -u +%Y)
+          if [ "$BUMP" = patch ]; then
+            if [ "$major" != "$year" ]; then
+              echo "::error::Only a $year release can be patched, and the last release is $current. Make a minor release."
+              exit 1
+            fi
+            release="${major}.${minor}.$((patch + 1))"
+          else
+            release="${year}.$((minor + 1)).0"
+          fi
+          echo "release=$release" >> "$GITHUB_OUTPUT"
+          echo "Release version: $current -> $release ($BUMP)"
+
+      # --- Prepare release ---
+      - name: Set plugin version
+        env:
+          RELEASE: ${{ steps.version.outputs.release }}
+        run: |
+          # Replace only the version line, so the rest of each manifest keeps its formatting.
+          # Claude Code reads .claude-plugin/plugin.json, Codex reads .codex-plugin/plugin.json.
+          python3 - <<'EOF'
+          import os, re
+          for path in (".claude-plugin/plugin.json", ".codex-plugin/plugin.json"):
+              text = open(path).read()
+              text, n = re.subn(r'("version"\s*:\s*)"[^"]*"', r'\g<1>"%s"' % os.environ["RELEASE"], text, count=1)
+              if n != 1:
+                  raise SystemExit("No version field found in " + path)
+              open(path, "w").write(text)
+          EOF
+
+      # Move the ## Unreleased entries into a versioned section and write the release notes
+      - name: Stamp changelog
+        env:
+          RELEASE: ${{ steps.version.outputs.release }}
+        run: |
+          python3 - <<'EOF'
+          import datetime, os, re
+          path = "CHANGELOG.md"
+          text = open(path).read()
+          m = re.search(r"^## Unreleased\n(.*?)(?=^## \[|\Z)", text, re.S | re.M)
+          if not m:
+              raise SystemExit("No '## Unreleased' section in " + path)
+          # Keep only the category headings that have entries
+          groups = [g for g in re.split(r"(?m)^(?=### )", m.group(1))
+                    if g.startswith("### ") and re.search(r"(?m)^- ", g)]
+          if not groups:
+              raise SystemExit("Nothing to release: '## Unreleased' has no entries")
+          notes = "\n\n".join(g.strip() for g in groups) + "\n"
+          fresh = "## Unreleased\n\n### Added\n\n### Changed\n\n### Fixed\n\n### Removed\n\n"
+          stamped = "## [%s] - %s\n\n%s\n" % (os.environ["RELEASE"], datetime.date.today().isoformat(), notes)
+          open(path, "w").write(text[:m.start()] + fresh + stamped + text[m.end():])
+          open(os.path.join(os.environ["RUNNER_TEMP"], "release-notes.md"), "w").write(notes)
+          EOF
+
+      # --- Commit & Tag the release ---
+      - name: Commit release
+        run: |
+          git add .claude-plugin/plugin.json .codex-plugin/plugin.json CHANGELOG.md
+          git commit -m "release ${{ steps.version.outputs.release }}"
+          git tag "${{ steps.version.outputs.release }}"
+
+      # --- Push & Clean up ---
+      # Rename "rc" tag → "rc_X.Y.Z" and push everything
+      - name: Push commits and tags
+        run: |
+          git push origin main
+          git push origin "${{ steps.version.outputs.release }}"
+          if git rev-parse -q --verify refs/tags/rc >/dev/null; then
+            git push origin :refs/tags/rc
+            git tag -d rc
+            git tag "rc_${{ steps.version.outputs.release }}" HEAD
+            git push origin "rc_${{ steps.version.outputs.release }}"
+          fi
+
+      # --- GitHub Release ---
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.release }}
+          name: ${{ steps.version.outputs.release }}
+          body_path: ${{ runner.temp }}/release-notes.md

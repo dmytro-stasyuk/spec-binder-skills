@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "specbinder",
+  "description": "Coding agent plugins for SpecBinder, the compile-time Gherkin framework.",
+  "owner": {
+    "name": "Dmytro Stasyuk",
+    "url": "https://github.com/dmytro-stasyuk"
+  },
+  "plugins": [
+    {
+      "name": "specbinder",
+      "description": "Review, automate and split SpecBinder Gherkin spec files, with review findings shown in the IntelliJ IDEA spec editor.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

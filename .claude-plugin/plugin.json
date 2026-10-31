@@ -1,0 +1,12 @@
+{
+  "name": "specbinder",
+  "version": "0.1.0",
+  "description": "Review, automate and split SpecBinder Gherkin spec files, with review findings shown in the spec editor of IntelliJ IDEA.",
+  "author": {
+    "name": "Dmytro Stasyuk",
+    "url": "https://github.com/dmytro-stasyuk"
+  },
+  "homepage": "https://specbinder.dev",
+  "license": "MIT",
+  "keywords": ["gherkin", "bdd", "specbinder", "intellij", "review", "feature", "junit", "acceptance-tests"]
+}
