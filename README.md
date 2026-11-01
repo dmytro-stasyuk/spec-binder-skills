@@ -7,7 +7,7 @@ guidelines, which you can start from the starter guidelines it offers. The findi
 IntelliJ IDEA, where you can apply or dismiss them, or go through them with the agent in the same session.
 [All skills](#skills) are listed below.
 
-![A spec in IntelliJ IDEA with review findings marked on its text, a count per kind, and each finding as a card with its proposed fix](docs/images/review-overview.png)
+https://github.com/user-attachments/assets/ab226ce2-f119-4987-9465-a9674e9536f2
 
 ## Requirements
 
@@ -59,6 +59,8 @@ Ask for a review in your agent's session. In Claude Code:
 
 In Codex, call the skill by its plain name, `review-spec`, or just ask ("review Checkout.specb").
 
+![A spec in IntelliJ IDEA with review findings marked on its text, a count per kind, and each finding as a card with its proposed fix](docs/images/review-overview.png)
+
 The agent reads the spec as the editor has it, reviews it and publishes its findings. Each finding is one of
 eight kinds, from most to least serious: **blocker**, **issue**, **split**, **gap**, **suggestion**, **polish**,
 **question** and **praise**. It is marked on the text it is about in that kind's look, and the agent lists the
@@ -93,7 +95,7 @@ the request itself ("review Cart.specb for blockers and issues only") overrides 
   the missing Examples written out as its fix, ready to apply. It needs an `edge-cases` category in the project
   guidelines (see below), where you can add your own domain's edge cases.
 
-  ![A gap finding with the missing Example written out, a question pointing at another spec, and a blocker](docs/images/review-gap-question-blocker.png)
+  ![A gap finding with the missing Scenario written out, a question pointing at another spec, and a blocker](docs/images/review-gap-question-blocker.png)
 
 - When you push back on a finding ("HTTP endpoints are fine in our specs"), the agent offers to add that as a
   guideline to your project's guidelines, so later reviews follow it.
