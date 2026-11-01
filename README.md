@@ -7,7 +7,7 @@ guidelines, which you can start from the starter guidelines it offers. The findi
 IntelliJ IDEA, where you can apply or dismiss them, or go through them with the agent in the same session.
 [All skills](#skills) are listed below.
 
-https://github.com/user-attachments/assets/ab226ce2-f119-4987-9465-a9674e9536f2
+https://github.com/user-attachments/assets/edad95dc-83bb-4d54-b482-964428c67f98
 
 ## Requirements
 
