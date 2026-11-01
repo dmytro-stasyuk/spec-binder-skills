@@ -1,4 +1,4 @@
-Ability: Check out an order
+Feature: check out an order
 
   As a shopper
   I want to pay for what is in my cart
@@ -6,14 +6,14 @@ Ability: Check out an order
 
   Rule: delivery is free for orders of €50.00 or more
 
-    Example: an order of €75.00
-      Given the cart total is €75.00
+    Scenario: an order of €75.00
+      Given the cart total is "€75.00"
       When I pay for the order
-      Then I am not charged for delivery
+      Then delivery is "free"
 
   Rule: a paid order is confirmed by email
 
-    Example: card payment accepted
-      Given the cart total is €30.00
+    Scenario: card payment accepted
+      Given the cart total is "€30.00"
       When I pay for the order by card
       Then I receive an order confirmation email

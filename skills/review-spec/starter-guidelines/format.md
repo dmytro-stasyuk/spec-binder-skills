@@ -2,8 +2,6 @@
 
 Kind: polish
 
-- Flag (suggestion): `Feature:` or `Scenario:` where the preferred `Ability:` or `Example:` would do. Report it
-  once per spec, not once per keyword. `Scenario Outline:` with its `Examples:` table stays as it is.
 - Flag: an `Ability:` title that is a sentence or a description rather than a short verb phrase of about one to
   three words naming the capability, starting lowercase ("renaming a step", "paying by card").
 - Flag (suggestion): an Ability without an `As a … / I want … / So that …` user story, or a story whose parts are
