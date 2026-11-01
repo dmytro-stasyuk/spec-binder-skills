@@ -7,10 +7,13 @@ guidelines, which you can start from the starter guidelines it offers. The findi
 IntelliJ IDEA, where you can apply or dismiss them, or go through them with the agent in the same session.
 [All skills](#skills) are listed below.
 
+![A spec in IntelliJ IDEA with review findings marked on its text, a count per kind, and each finding as a card with its proposed fix](docs/images/review-overview.png)
+
 ## Requirements
 
 - Claude Code or Codex.
-- IntelliJ IDEA 2025.2 or later, with the SpecBinder plugin installed.
+- IntelliJ IDEA 2025.2 or later, with the [SpecBinder plugin](https://plugins.jetbrains.com/plugin/30540-specbinder-beta-)
+  2026.20.0 or later installed.
 - The IDE's MCP server enabled, with your agent connected to it. See the next section.
 - For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), and for moving test code in
   `split-spec`: a Java project built with Maven or Gradle.
@@ -33,13 +36,6 @@ IntelliJ IDEA, where you can apply or dismiss them, or go through them with the 
    codex plugin marketplace add dmytro-stasyuk/spec-binder-skills
    codex plugin add specbinder@specbinder
    ```
-3. Optionally, install the companion GLAD plugin for writing specs, the same way:
-   ```
-   /plugin marketplace add dmytro-stasyuk/glad-workflow-skills
-   /plugin install glad@glad
-   ```
-   or, in Codex, `codex plugin marketplace add dmytro-stasyuk/glad-workflow-skills` and
-   `codex plugin add glad@glad`.
 
 ### After updating the IntelliJ plugin
 
@@ -51,6 +47,9 @@ old one can restore the old definitions along with the conversation. This only a
 Ordinary reviews need no restarting.
 
 ## Usage
+
+To see a review before writing your own specs, open the [`demo`](demo/) project in IntelliJ IDEA and review its
+cart spec: it is written to draw all eight kinds of finding.
 
 Ask for a review in your agent's session. In Claude Code:
 
@@ -74,6 +73,10 @@ view**. From there you can:
   wording for the quoted text or a rewrite of whole lines, shown as a diff on the card;
 - edit the text yourself. The finding goes away once the text it quotes changes.
 
+![A split finding's card, linked to the two lines it is about, with a fix that moves the unrelated outcome into a Rule of its own](docs/images/review-split.png)
+
+![Applying a fix rewrites the spec in one click and the blocker disappears from the counts](docs/images/review-applied.png)
+
 The **Review This Spec** button on the spec's toolbar sends the review command to the spec's open Claude Code
 session in one click; with another agent, ask for the review in its session. The button's arrow, and a toggle per
 kind on the AI Review tab's toolbar, list the eight kinds with a tick each. Untick a kind to leave it out of the
@@ -81,12 +84,17 @@ spec's next review and set its current findings aside; tick it again to bring th
 **Check None** pick quickly, and a spec you haven't chosen for starts from your last selection. Naming kinds in
 the request itself ("review Cart.specb for blockers and issues only") overrides the ticks for that review.
 
+![The Review Checks menu, listing the eight kinds of finding, each with a tick](docs/images/review-kinds.png)
+
 ### More from a review
 
 - When the **gap** kind is ticked, the review also works through each Rule for missing edge cases: boundaries,
   empty or missing input, errors, permissions, state and ordering, concurrency and time. Each gap comes with
   the missing Examples written out as its fix, ready to apply. It needs an `edge-cases` category in the project
   guidelines (see below), where you can add your own domain's edge cases.
+
+  ![A gap finding with the missing Example written out, a question pointing at another spec, and a blocker](docs/images/review-gap-question-blocker.png)
+
 - When you push back on a finding ("HTTP endpoints are fine in our specs"), the agent offers to add that as a
   guideline to your project's guidelines, so later reviews follow it.
 - The starter guidelines include SpecBinder's layout and wording conventions, under the `format` category. Most
@@ -97,17 +105,6 @@ the request itself ("review Cart.specb for blockers and issues only") overrides 
 Run a skill as `/specbinder:<name>` in Claude Code or by its plain name in Codex, or just describe what you want
 ("review Cart.specb") and the agent picks the skill. Skills that work on one spec take its path, or else use the
 file and cursor position from the IDE.
-
-**Discover and write**
-
-Writing specs lives in the companion **GLAD** plugin (Gherkin-Led Agentic Development), from
-[`dmytro-stasyuk/glad-workflow-skills`](https://github.com/dmytro-stasyuk/glad-workflow-skills): Example Mapping,
-drafting a spec from a request or a ticket, adding to its story, Rules, Examples and steps, and answering
-questions about the system's behaviour from the specs alone (`answer-from-specs`). Its experimental skills also
-write specs from existing code or tests, which `automate-spec` can then wire up, map the specs, summarise their
-changes and put them on tickets. Its skills work in
-any Gherkin project, follow the same project guidelines as the review, and show Example Mapping's open questions
-in the spec editor when the SpecBinder IntelliJ plugin is connected.
 
 **Turn specs into tests (Java)**
 
@@ -128,6 +125,8 @@ A review checks a spec against your project's guidelines only: `.specbinder/revi
 number of `.md` files in a `.specbinder/review-guidelines/` directory (subdirectories included). Nothing is
 checked that isn't written there. A project without guidelines gets no review: the agent offers to set them up
 first.
+
+![Hovering a finding's category shows the guideline check that raised it](docs/images/review-guideline-link.png)
 
 To start, ask the agent to set up review guidelines, or just ask for a review. It offers the starter guidelines
 in [`skills/review-spec/starter-guidelines/`](skills/review-spec/starter-guidelines/), one file per category:

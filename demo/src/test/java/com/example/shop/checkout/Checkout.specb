@@ -1,0 +1,19 @@
+Ability: Check out an order
+
+  As a shopper
+  I want to pay for what is in my cart
+  So that the shop sends it to me
+
+  Rule: delivery is free for orders of €50.00 or more
+
+    Example: an order of €75.00
+      Given the cart total is €75.00
+      When I pay for the order
+      Then I am not charged for delivery
+
+  Rule: a paid order is confirmed by email
+
+    Example: card payment accepted
+      Given the cart total is €30.00
+      When I pay for the order by card
+      Then I receive an order confirmation email

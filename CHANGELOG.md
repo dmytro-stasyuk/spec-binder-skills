@@ -9,12 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 ### Added
 
 - Each review finding now names the guideline check that flagged it, so in IntelliJ IDEA its card in the AI Review
-  tab links to that check: hover to read it, click to open the guideline file on it and tune it. Needs a
-  SpecBinder IntelliJ plugin with guideline links; older versions show findings as before.
+  tab links to that check: hover to read it, click to open the guideline file on it and tune it. Needs
+  SpecBinder IntelliJ plugin 2026.20.0 or later.
 - The plugin can also be installed in Codex, from the same repository, with `codex plugin marketplace add` and
   `codex plugin add`. Its skills no longer assume Claude Code.
-- Writing specs is now done with the companion GLAD plugin (`glad`, from `dmytro-stasyuk/glad-workflow-skills`):
-  Example Mapping, drafting a spec from a request or an issue, and adding to its story, Rules, Examples and steps.
 - New `automate-spec` skill for Java projects wires a spec to a JUnit 5 test and writes its steps against the
   production code.
 - New `restructure-spec-folders` skill restructures the spec folders, with their test code, so they reveal what
@@ -38,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   Examples vary in more than one way, and sibling Example titles that don't tell the Examples apart.
 - **⚠️ BREAKING:** Each finding now also gets a card in the spec's AI Review tab in IntelliJ IDEA, with its
   proposed fix as a diff and buttons to apply or dismiss it. The tab is off until you turn it on under
-  Settings › SpecBinder › Split view. Needs the SpecBinder IntelliJ plugin release that adds the AI Review tab.
+  Settings › SpecBinder › Split view. Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 - Every finding is one of eight kinds: blocker, issue, split, gap, suggestion, polish, question or praise. Each
   kind has its own look, count and Problems view group in IntelliJ IDEA. The starter guidelines give each category a
   kind and a few checks their own, and each finding has the kind of the check it comes from. A project's
@@ -77,19 +75,18 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   live in this category too, and it suggests a Scenario Outline for Examples that differ only in their values.
 - The Rules, Examples and other parts of a spec that a finding's message names are links on its card in IntelliJ
   IDEA: the quoted title is the link, and a click puts the cursor at the start of that title in the spec, or in
-  the other spec file it is in, however the spec has changed since the review. Needs the SpecBinder IntelliJ
-  plugin release that adds these links.
+  the other spec file it is in, however the spec has changed since the review. Needs SpecBinder IntelliJ plugin
+  2026.20.0 or later.
 - A missing Example the review finds is now marked on the title of the Rule it belongs under, or on the spec's
   title when the spec has no Rules, rather than on the last line of the Example it would follow, and is placed
   under the Rule whose criterion it shows. A missing case that no Rule's criterion covers comes as a new Rule,
-  marked on the spec's title. Needs the SpecBinder IntelliJ plugin release that accepts these fixes.
+  marked on the spec's title. Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 - The starter guidelines flag Rule description lines that only repeat the Rule's title, retell what its Examples
   show or add nothing a reader needs, as a suggestion whose fix removes them. This replaces the check for a
   description that only restates the title.
 - A gap finding now always comes with the missing Example or Rule as its fix, even when what should happen is
   yours to decide: its `Then` is the review's proposal, from what the system does now where the agent can tell,
-  and the message names the other outcomes you could choose. Needs the SpecBinder IntelliJ plugin release that turns
-  down a gap finding without one.
+  and the message names the other outcomes you could choose. Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 
 ### Changed
 
@@ -146,7 +143,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 - **⚠️ BREAKING:** A finding that an Example belongs under another Rule now always comes with a fix that moves
   it there, which you can review and apply in one step. Before, such findings could arrive with no fix at all.
-  Needs the SpecBinder IntelliJ plugin release that accepts fixes made of several edits.
+  Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 - A fix that rewrites or removes a description no longer takes the blank line after it too, which ran the
   description or the Rule's title into the Example below once the fix was applied.
 

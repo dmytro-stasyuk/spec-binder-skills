@@ -1,7 +1,7 @@
 {
   "name": "specbinder",
   "version": "0.1.0",
-  "description": "Review, automate and split SpecBinder Gherkin spec files, with review findings shown in the spec editor of IntelliJ IDEA.",
+  "description": "Claude Code and Codex skills for SpecBinder: review Gherkin specs against your own guidelines, turn them into JUnit 5 tests, and keep the spec folders tidy.",
   "author": {
     "name": "Dmytro Stasyuk",
     "url": "https://github.com/dmytro-stasyuk"

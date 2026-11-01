@@ -37,7 +37,7 @@ Reading the spec needs no tool of ours: the IDE's own file tools (`read_file`, o
 an IDE that lacks it) already return a file as the editor currently has it, unsaved changes included.
 
 If the `specbinder_*` tools are not available, stop. Tell the author that the review needs:
-1. IntelliJ IDEA 2025.2 or later, with the SpecBinder plugin installed.
+1. IntelliJ IDEA 2025.2 or later, with the SpecBinder plugin 2026.20.0 or later installed.
 2. The MCP server enabled in Settings › Tools › MCP Server.
 3. You, the agent running this review, connected to that MCP server. The **Auto-Configure** button on that page
    sets this up for the clients it lists; for any other client, add the server's address from that page to the

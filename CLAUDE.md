@@ -17,6 +17,9 @@ Claude Code and in Codex. It has no build: it is plugin manifests, a marketplace
 - `skills/review-spec/`: the `review-spec` skill (`SKILL.md`) and its starter review guidelines
   (`starter-guidelines/`, one file per category). A review reads only the project's own guidelines; the starter
   files are copied into a project when its author asks for them.
+- `demo/`: a small IntelliJ project whose cart spec draws all eight kinds of review finding; the README's
+  screenshots in `docs/images/` were taken from it. Its `.specbinder/review-guidelines/` are copies of the starter
+  guidelines plus `strengths.md`: refresh the copies from `starter-guidelines/` before retaking the screenshots.
 
 The skill depends on MCP tools that the SpecBinder IntelliJ plugin (`../spec-binder-intellij-plugin/`) adds to
 the IDE's MCP server: `specbinder_get_review_scope`, `specbinder_publish_spec_review` and

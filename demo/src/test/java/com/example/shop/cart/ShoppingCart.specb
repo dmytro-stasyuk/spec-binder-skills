@@ -1,0 +1,50 @@
+Ability: Shop with a cart
+
+  As a shopper
+  I want to collect products in a cart before I pay
+  So that I can buy several things in one order
+
+  Rule: the cart totals the price of what it holds
+
+    Example: one product
+      Given the cart is empty
+      When I add a "Coffee mug" at €12.00
+      Then the cart total is successfully updated to €12.00
+
+    Example: several products
+      Given the cart holds a "Coffee mug" at €12.00
+      When I click the Add to cart button for a "Tea towel" at €8.00
+      Then the cart total is €20.00
+
+  Rule: removing a product takes its price off the total
+
+    Example: one of several products
+      Given the cart holds a "Coffee mug" at €12.00 and a "Tea towel" at €8.00
+      When I remove the "Tea towel"
+      Then the cart total is €12.00
+
+    Example: the last product
+      Given the cart holds a "Coffee mug" at €12.00
+      When I remove the "Coffee mug"
+      Then the cart is empty
+      And the cart total is €0.00
+
+  Rule: Discounts
+
+    Example: a discount code takes 10% off
+      Given the cart total is €40.00
+      When I apply the discount code "SAVE10"
+      Then the cart total is €36.00
+      And a confirmation email is sent to me
+
+  Rule: delivery is free for orders of €50.00 or more
+
+    Example: an order over the threshold ships free
+      Given the cart total is €45.00
+      When I go to checkout
+      Then delivery is free
+
+    Example: a small order pays for delivery
+      Given the cart total is €20.00
+      When I go to checkout
+      Then delivery costs €4.95
