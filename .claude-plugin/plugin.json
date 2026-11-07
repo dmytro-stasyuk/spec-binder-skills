@@ -7,6 +7,6 @@
     "url": "https://github.com/dmytro-stasyuk"
   },
   "homepage": "https://specbinder.dev",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "keywords": ["gherkin", "bdd", "specbinder", "intellij", "review", "feature", "junit", "acceptance-tests"]
 }

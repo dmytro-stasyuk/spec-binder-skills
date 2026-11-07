@@ -162,7 +162,7 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
        "quote": "I click the Save button",
        "category": "implementation-detail",
        "kind": "issue",
-       "message": "Names a UI control instead of what the user wants to achieve.",
+       "message": "Names a UI control instead of what the user wants to achieve.\n\nThe fix says what the user does instead: they save the invoice.",
        "rewrite": [{"text": "I save the invoice"}],
        "check": {
          "path": ".specbinder/review-guidelines/implementation-detail.md",
@@ -185,11 +185,17 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      `path` is its guideline file, relative to the project, `line` the 1-based line its `- Flag` bullet starts
      on, and `text` that line copied **verbatim** from `Flag` on, its kind in brackets included. Give it on every
      finding. A finding whose check is not on that line of that file is turned down.
-   - `message` says what is wrong, not how to fix it, in up to three short sentences, each starting with a capital
-     letter, as it is shown on its own in the IDE. Write it as [Writing for the author](#writing-for-the-author)
-     says.
+   - `message` says what is wrong, in up to three short sentences, and then, when the finding has a fix, what the
+     fix does, in one or two more. Each sentence starts with a capital letter, as it is shown on its own in the
+     IDE. Put the point in its first sentence: the IDE shows that sentence as the finding's lead, and any sentences
+     after it as detail under it. Always start the sentences about the fix on a paragraph of their own, after a
+     blank line (`\n\n`), so the author can find them at a glance. A message with a blank line in it is cut only
+     at its blank lines, its first paragraph leading, so end the lead with one too:
+     `"Lead.\n\nMore about the problem.\n\nThe fix …"`. To lead with more than one sentence, put them all
+     before that first blank line. Write it as [Writing for the author](#writing-for-the-author) says.
    - Every finding proposes a fix, `rewrite`: always a list of edits, each with a `text` that is the new wording.
-     The exceptions are `question` and `praise` findings, which have none.
+     The exceptions are `question` and `praise` findings, which have none, and a finding about the spec file's
+     name, whose fix is a `rename` (see below).
      - `[{"text": "..."}]` replaces **exactly the quoted span**, so `text` must read correctly in its place. Such
        an edit is always the fix's only one.
      - `[{"fromLine": 8, "toLine": 14, "replaces": "...", "text": "..."}]` is for a problem whose fix reaches
@@ -277,6 +283,13 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      - **A spec without Rules whose Examples show several criteria:** wrap its Examples in one Rule per
        criterion, each titled with its criterion, keeping every Example unchanged and in its original order
        within its Rule.
+   - A finding about the spec file's name gives `rename` in place of `rewrite`: the file's new name alone, such as
+     `"rename": "RefundOrder.specb"`, with no folder and keeping the file's extension. Put the finding on the spec's
+     first line (`Ability:`), quoting its title, and say in the message what the name suggests the spec is about
+     and what it is about instead. In IntelliJ IDEA, applying the fix opens the Rename dialog on that name, which
+     renames the spec's test classes with the file. If the publish tool's description doesn't mention `rename`,
+     the IDE's SpecBinder plugin predates it: publish the finding without a fix, and give the new name in the
+     message.
    - Findings are numbered top to bottom as their quotes appear in the spec, whatever order you list them in.
      Refer to them by the numbers the result gives.
    - If the result turns any finding down, correct those findings and publish the **whole** review again.
@@ -304,13 +317,21 @@ understand it on the first read, in the words they would use themselves:
   `the Rule ["a card payment is taken in full"](features/Payments.specb#L2)`. The card shows only what is in the
   brackets, as a link that keeps leading to the part as the spec changes. Steps are not parts: name them in words
   only. The publish tool turns down a finding whose link leads to a line that doesn't start a part.
-- **Say it in whole sentences.** Give each sentence a subject and a verb, and one thought. Say what is wrong and,
-  when it isn't obvious, why it matters to someone reading the spec. A finding about one place usually needs one
-  sentence; one that involves two places, such as an Example under the wrong Rule, may need three.
+- **Say it in whole sentences.** Give each sentence a subject and a verb, and one thought. Say what is wrong first
+  and, when it isn't obvious, why it matters to someone reading the spec after it. The problem in a finding about
+  one place usually needs one sentence; one that involves two places, such as an Example under the wrong Rule, may
+  need three.
+- **Say what the fix does.** The author sees the fix as a diff, and a long one, or one that only removes lines,
+  doesn't say what it is for. After the problem, in a paragraph of its own, say in plain words what the fix
+  changes in the spec, so the
+  author knows what the diff does before they read it: "The fix removes this Rule and its three Examples, and
+  widens the title of the Rule […](#L801) to cover tags, titles and descriptions." Name what it removes, moves,
+  merges, adds or rewords, and where to, but don't repeat the new wording itself, which the diff shows.
 - **Use shared words.** Use the spec's words and the author's. A term from the guidelines, or one you used earlier
   in the conversation, is not one the author shares; if a finding needs it, say what it means.
 - **Check before publishing.** Read each message as the author would. Could they tell which part of the spec you
-  mean, and what is wrong with it, without your notes? If not, write it again.
+  mean, what is wrong with it, and what applying the fix would do, without your notes or the diff? If not, write
+  it again.
 
 Avoid:
 
@@ -321,6 +342,8 @@ Write:
 > This Example checks the cart's total, which is what the Rule ["the cart totals the price of what it holds"](#L14)
 > is about. It sits under the Rule ["the cart holds what the shopper adds"](#L3), which is about what the cart
 > holds.
+>
+> The fix moves it, unchanged, to the end of the Rule ["the cart totals the price of what it holds"](#L14).
 
 The same goes for everything you tell the author in the chat: the summary of a review, and any discussion of its
 findings. In the chat a line number may go beside a title, as the author reads it at once, while the lines are
@@ -358,7 +381,10 @@ created.
   fixed, dismissed or set aside findings in the editor since your last call. Call it without `findings` only
   when you need the whole review, such as "go through the rest".
 - When you fix findings, edit the spec file directly. The edit closes the finding once its quoted text changes.
-  Don't publish a new review just to remove the findings you fixed.
+  Don't publish a new review just to remove the findings you fixed. Leave a `rename` fix to the author to apply
+  in the IDE, which renames the spec's code with it; renaming the file yourself leaves that code behind.
+- Once a rename fix is applied, the spec has a new path: the tools answer for the spec only by that path, and
+  name it when asked by the old one.
 - Publish again only when the author asks for a fresh review, or after changes large enough that the old
   line-based findings no longer fit. Re-read the spec through the IDE first, so the line numbers are current.
 - If the author disagrees with a finding, discuss it. If they're right, suggest they dismiss it from the editor:

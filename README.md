@@ -37,15 +37,6 @@ https://github.com/user-attachments/assets/edad95dc-83bb-4d54-b482-964428c67f98
    codex plugin add specbinder@specbinder
    ```
 
-### After updating the IntelliJ plugin
-
-An agent session reads the IDE's tool definitions once, when it starts. Updating the SpecBinder plugin means
-restarting the IDE, which running sessions do not notice: they keep the definitions they started with, and calls
-made with them can fail against the new version. Reconnect the agent to the IDE's server (in Claude Code,
-**Reconnect** in `/mcp`); if the tools still behave as they did before, start a fresh session, since resuming an
-old one can restore the old definitions along with the conversation. This only applies to plugin updates.
-Ordinary reviews need no restarting.
-
 ## Usage
 
 To see a review before writing your own specs, open the [`demo`](demo/) project in IntelliJ IDEA and review its
@@ -92,7 +83,7 @@ the request itself ("review Cart.specb for blockers and issues only") overrides 
 
 - When the **gap** kind is ticked, the review also works through each Rule for missing edge cases: boundaries,
   empty or missing input, errors, permissions, state and ordering, concurrency and time. Each gap comes with
-  the missing Examples written out as its fix, ready to apply. It needs an `edge-cases` category in the project
+  the missing Scenarios written out as its fix, ready to apply. It needs an `edge-cases` category in the project
   guidelines (see below), where you can add your own domain's edge cases.
 
   ![A gap finding with the missing Scenario written out, a question pointing at another spec, and a blocker](docs/images/review-gap-question-blocker.png)
@@ -119,7 +110,7 @@ file and cursor position from the IDE.
 | Skill | What it does |
 |---|---|
 | `restructure-spec-folders` | Restructures the spec folders so they reveal what the system does: by default by business capability and use case, never by technical layer or test type; or by a principle you give; or just tidies them. Moves each spec with its test class and the test code it shares, shows the plan first and rebuilds afterwards. |
-| `split-spec` | Moves the top-level Abilities of a spec file that holds several into spec files of their own, rewriting the links between them. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. |
+| `split-spec` | Moves the top-level Features of a spec file that holds several into spec files of their own, rewriting the links between them. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. |
 
 ## Project guidelines
 
@@ -166,4 +157,4 @@ A review loads only the files that have checks of the kinds it reports, as ticke
 
 ## License
 
-[MIT](LICENSE)
+[GNU General Public License v3.0](LICENSE), the same as the SpecBinder library.

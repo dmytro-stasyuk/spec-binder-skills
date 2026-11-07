@@ -2,7 +2,7 @@
   "name": "specbinder",
   "version": "0.1.0",
   "description": "Claude Code and Codex skills for SpecBinder: review Gherkin specs against your own guidelines, turn them into JUnit 5 tests, and keep the spec folders tidy.",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "keywords": ["gherkin", "bdd", "specbinder", "intellij", "review", "feature", "junit", "acceptance-tests"],
   "skills": "./skills",
   "interface": {
@@ -15,7 +15,7 @@
     "defaultPrompt": [
       "Review the spec file open in the IDE",
       "Automate this spec as a JUnit test",
-      "Split this spec file into one file per Ability"
+      "Split this spec file into one file per Feature"
     ]
   }
 }

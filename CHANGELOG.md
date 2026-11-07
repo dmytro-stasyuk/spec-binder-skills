@@ -20,12 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   tree.
 - When the gap kind is ticked, a review also looks for missing edge cases in each Rule and offers the missing
   Examples as fixes. Projects can add their own edge cases in their guidelines.
-- New `split-spec` skill moves the top-level Abilities of a spec file that holds several into spec files of
+- New `split-spec` skill moves the top-level Features of a spec file that holds several into spec files of
   their own, rewriting the links between them, and in a Java project creates their test classes and sorts the
   step methods between them, rebuilding until everything compiles.
 - A split finding's fix now leaves the spec fully split: an Example becomes complete Examples, a Rule becomes
   narrow Rules with its Examples shared out between them, and a spec covering several aspects becomes several
-  Abilities in the same file, each with its own title, story and Rules.
+  Features in the same file, each with its own title, story and Rules.
 - When you disagree with a finding, the agent offers to add your reason to the project's review guidelines.
 - A review doesn't run while a section of your guidelines has no `Kind:` line, or a kind isn't one of the
   eight. The agent says where it is and offers to correct it.
@@ -87,9 +87,16 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 - A gap finding now always comes with the missing Example or Rule as its fix, even when what should happen is
   yours to decide: its `Then` is the review's proposal, from what the system does now where the agent can tell,
   and the message names the other outcomes you could choose. Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
+- The starter guidelines flag a spec file whose name doesn't say what the spec is about, and propose a new name
+  after the spec's title. A name that is an issue tracker's key, such as `BR-123.specb`, is left as it is, and a
+  new name keeps any key the old one has. With SpecBinder IntelliJ plugin 2026.20.0 or later, applying the fix
+  opens the IDE's Rename dialog on the new name, which renames the spec's test code with it; with an older
+  plugin, the finding gives the new name in its message.
 
 ### Changed
 
+- A finding's message now leads with its point, so in IntelliJ IDEA the AI Review tab can show that sentence
+  first and the rest of the message under it, as detail that is easy to skip when scanning the cards.
 - **⚠️ BREAKING:** Reviews no longer apply built-in guidelines. A spec is checked only against the project's own
   guidelines in `.specbinder/review-guidelines.md` and `.specbinder/review-guidelines/`, and a project without
   any gets no review until it has some. The agent offers to set them up from the starter guidelines, all of them
@@ -111,6 +118,9 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   title, rather than by a shorthand of its own or a line number that goes stale once an earlier fix moves
   lines, and may take up to three short sentences where one couldn't say it clearly. The summary in the chat reads
   the same way.
+- A finding with a fix now also says in plain words what the fix does, such as which Rule and Examples it removes
+  or where it moves an Example, so you can tell what applying it will change without working it out from the diff.
+  It starts on a line of its own, below the problem, so you can find it at a glance.
 - In the starter guidelines, a `Then` that only repeats what other Examples of the spec already show is now a
   suggestion whose fix removes it, rather than a split. An unrelated `Then` is a split only when no other Example
   shows it, and its fix makes it an Example of its own.

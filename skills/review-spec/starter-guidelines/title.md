@@ -15,3 +15,10 @@ Kind: suggestion
   blocked", "when the CVV is wrong"), so they don't read as a set.
 - Flag (blocker): a title that no longer matches what the steps do.
 - Flag: a Feature or Ability title that names a component or screen rather than a capability.
+- Flag: a spec file whose name doesn't say what the spec is about, naming something else (`Checkout.specb` for a
+  spec about refunding an order) or nothing in particular (`NewSpec.specb`). The fix renames it after the
+  spec's title, in the form the project's other spec file names take (`RefundOrder.specb`).
+- A file name that is an issue tracker's key, such as `BR-123.specb`, names the ticket the spec came from, not
+  what it is about: leave it as the team named it. When a name pairs a key with words, as `BR-123-checkout.specb`
+  does, flag only words that miss what the spec is about, and keep the key in the new name
+  (`BR-123-refund-order.specb`).
