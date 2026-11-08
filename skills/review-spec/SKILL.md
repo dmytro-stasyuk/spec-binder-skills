@@ -162,7 +162,7 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
        "quote": "I click the Save button",
        "category": "implementation-detail",
        "kind": "issue",
-       "message": "Names a UI control instead of what the user wants to achieve.\nThe fix says what the user does instead: they save the invoice.",
+       "message": "This step names the button the user clicks, not what they want to achieve.\nThe fix says what the user does instead: they save the invoice.",
        "rewrite": [{"text": "I save the invoice"}],
        "check": {
          "path": ".specbinder/review-guidelines/implementation-detail.md",
@@ -328,9 +328,14 @@ understand it on the first read, in the words they would use themselves:
   merges, adds or rewords, and where to, but don't repeat the new wording itself, which the diff shows.
 - **Use shared words.** Use the spec's words and the author's. A term from the guidelines, or one you used earlier
   in the conversation, is not one the author shares; if a finding needs it, say what it means.
+- **Say it as a colleague would.** Write as one person telling another what they noticed in the spec, not as a
+  tool issuing a notice or a headline: "This step names the button the shopper clicks, not what they want to do",
+  not "UI mechanics detected in step". Be direct and courteous. Don't make a finding sound official to make it
+  sound important, and don't make it jokey, overfamiliar or cheerful to soften it: a blocker deserves the same
+  plain words as a polish.
 - **Check before publishing.** Read each message as the author would. Could they tell which part of the spec you
-  mean, what is wrong with it, and what applying the fix would do, without your notes or the diff? If not, write
-  it again.
+  mean, what is wrong with it, and what applying the fix would do, without your notes or the diff? Would you say
+  it to them that way, face to face? If not, write it again.
 
 Avoid:
 

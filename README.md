@@ -157,6 +157,13 @@ Kind: suggestion
 
 A review loads only the files that have checks of the kinds it reports, as ticked in the IDE.
 
+## Acknowledgements
+
+How a review words its findings, in plain words and a human voice, draws on Matt Wynne's
+[`talking-to-humans`](https://github.com/mattwynne/skills/tree/main/skills/talking-to-humans) skill, and through it
+on Giles Turnbull's essays [Use the words normal people would use](https://gilest.org/notes/normal-words.html) and
+[Use the human voice, not the corporate voice](https://gilest.org/notes/human-voice.html).
+
 ## License
 
 [GNU General Public License v3.0](LICENSE), the same as the SpecBinder library.

@@ -116,8 +116,8 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   naming that file and its Rule or Example for you to decide which spec it belongs in.
 - Review findings are now written in plain words: each names the Rules and Examples it is about by their quoted
   title, rather than by a shorthand of its own or a line number that goes stale once an earlier fix moves
-  lines, and may take up to three short sentences where one couldn't say it clearly. The summary in the chat reads
-  the same way.
+  lines, and may take up to three short sentences where one couldn't say it clearly. Each is said the way a
+  colleague would tell you, rather than as a notice or a headline. The summary in the chat reads the same way.
 - A finding with a fix now also says in plain words what the fix does, such as which Rule and Examples it removes
   or where it moves an Example, so you can tell what applying it will change without working it out from the diff.
   It starts on a line of its own, below the problem, so you can find it at a glance.
