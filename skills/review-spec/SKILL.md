@@ -162,7 +162,7 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
        "quote": "I click the Save button",
        "category": "implementation-detail",
        "kind": "issue",
-       "message": "Names a UI control instead of what the user wants to achieve.\n\nThe fix says what the user does instead: they save the invoice.",
+       "message": "Names a UI control instead of what the user wants to achieve.\nThe fix says what the user does instead: they save the invoice.",
        "rewrite": [{"text": "I save the invoice"}],
        "check": {
          "path": ".specbinder/review-guidelines/implementation-detail.md",
@@ -186,13 +186,12 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      on, and `text` that line copied **verbatim** from `Flag` on, its kind in brackets included. Give it on every
      finding. A finding whose check is not on that line of that file is turned down.
    - `message` says what is wrong, in up to three short sentences, and then, when the finding has a fix, what the
-     fix does, in one or two more. Each sentence starts with a capital letter, as it is shown on its own in the
-     IDE. Put the point in its first sentence: the IDE shows that sentence as the finding's lead, and any sentences
-     after it as detail under it. Always start the sentences about the fix on a paragraph of their own, after a
-     blank line (`\n\n`), so the author can find them at a glance. A message with a blank line in it is cut only
-     at its blank lines, its first paragraph leading, so end the lead with one too:
-     `"Lead.\n\nMore about the problem.\n\nThe fix …"`. To lead with more than one sentence, put them all
-     before that first blank line. Write it as [Writing for the author](#writing-for-the-author) says.
+     fix does, in one or two more. A line break (`\n`) starts a new paragraph, and only a line break does: the
+     IDE shows the first paragraph as the finding's lead and each of the others on its own under it, so never
+     wrap a paragraph's lines yourself. Put the point in the lead, which can hold more than one sentence, and
+     start the sentences about the fix on a line of their own, so the author can find them at a glance:
+     `"Lead.\nMore about the problem.\nThe fix …"`. Write it as [Writing for the author](#writing-for-the-author)
+     says.
    - Every finding proposes a fix, `rewrite`: always a list of edits, each with a `text` that is the new wording.
      The exceptions are `question` and `praise` findings, which have none, and a finding about the spec file's
      name, whose fix is a `rename` (see below).

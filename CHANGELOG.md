@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   `When` isn't the capability the spec is about, a `Given` the outcome doesn't depend on, a Rule whose many
   Examples vary in more than one way, and sibling Example titles that don't tell the Examples apart.
 - **⚠️ BREAKING:** Each finding now also gets a card in the spec's AI Review tab in IntelliJ IDEA, with its
-  proposed fix as a diff and buttons to apply or dismiss it. The tab is off until you turn it on under
+  proposed fix as a diff and buttons to apply or dismiss it. The tab is on unless you turn it off under
   Settings › SpecBinder › Split view. Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 - Every finding is one of eight kinds: blocker, issue, split, gap, suggestion, polish, question or praise. Each
   kind has its own look, count and Problems view group in IntelliJ IDEA. The starter guidelines give each category a

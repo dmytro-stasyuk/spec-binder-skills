@@ -7,7 +7,7 @@ guidelines, which you can start from the starter guidelines it offers. The findi
 IntelliJ IDEA, where you can apply or dismiss them, or go through them with the agent in the same session.
 [All skills](#skills) are listed below.
 
-https://github.com/user-attachments/assets/edad95dc-83bb-4d54-b482-964428c67f98
+https://github.com/user-attachments/assets/0d52355f-a508-4166-817b-c7bbf325c2d1
 
 ## Requirements
 
@@ -58,7 +58,7 @@ eight kinds, from most to least serious: **blocker**, **issue**, **split**, **ga
 findings by number in the chat. Each kind has its own colour under **Settings › Editor › Color Scheme › General ›
 Errors and Warnings** ("SpecBinder review: …") and its own count in the editor's top-right problems widget, and
 its own group in the Problems tool window. Each also gets a card in the spec's **AI Review** tab, beside the spec
-in split view, linked to its text. The tab is off until you turn it on under **Settings › SpecBinder › Split
+in split view, linked to its text. The tab is on unless you turn it off under **Settings › SpecBinder › Split
 view**. From there you can:
 
 - ask the agent to explain or fix a finding ("fix #2 and #3"), in the chat;
@@ -68,14 +68,16 @@ view**. From there you can:
 
 ![A split finding's card, linked to the two lines it is about, with a fix that moves the unrelated outcome into a Rule of its own](docs/images/review-split.png)
 
-![Applying a fix rewrites the spec in one click and the blocker disappears from the counts](docs/images/review-applied.png)
+![Applying a gap's fix adds the missing Scenario to the spec in one click, and the gap disappears from the counts](docs/images/review-applied.png)
 
-The **Review This Spec** button on the spec's toolbar sends the review command to the spec's open Claude Code
-session in one click; with another agent, ask for the review in its session. The button's arrow, and a toggle per
-kind on the AI Review tab's toolbar, list the eight kinds with a tick each. Untick a kind to leave it out of the
-spec's next review and set its current findings aside; tick it again to bring them back. **Check All** and
-**Check None** pick quickly, and a spec you haven't chosen for starts from your last selection. Naming kinds in
-the request itself ("review Cart.specb for blockers and issues only") overrides the ticks for that review.
+The **Review This Spec** button on the spec's toolbar asks for a review in one click: it sends the review command
+to the spec's open Claude Code session, or starts one for the spec when none is open. With another agent, ask for
+the review in its session. When the review is ready, **Show** on the IDE's notification opens the AI Review tab at
+the first finding. The button's arrow, and a toggle per kind on the AI Review tab's toolbar, list the eight kinds
+with a tick each. Untick a kind to leave it out of the spec's next review and set its current findings aside; tick
+it again to bring them back. **Check All** and **Check None** pick quickly, and a spec you haven't chosen for
+starts from your last selection. Naming kinds in the request itself ("review Cart.specb for blockers and issues
+only") overrides the ticks for that review.
 
 ![The Review Checks menu, listing the eight kinds of finding, each with a tick](docs/images/review-kinds.png)
 
