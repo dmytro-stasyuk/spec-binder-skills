@@ -15,14 +15,41 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   `codex plugin add`. Its skills no longer assume Claude Code.
 - New `automate-spec` skill for Java projects wires a spec to a JUnit 5 test and writes its steps against the
   production code.
+- With `--implement`, `automate-spec` also builds the feature a spec describes, test-first: one Example at a time,
+  it writes the Example's steps, sees them fail and writes just enough code to make them pass. Where the system
+  already behaves differently from the spec, the spec wins. With `implement-using-subagent`, a separate agent
+  writes the code, without changing the tests, and its changes are checked; with `refactor-using-subagent`,
+  another one refactors the code once it is built, and its changes are thrown out if a test breaks.
+- `automate-spec` lists the cases the spec doesn't cover that it meets in the code. With `--add-uncovered-cases`
+  it adds them to the spec, as Examples or Rules with a title and a description of what each involves and what
+  the system does now; as full Examples with `complete-with-scenario-steps`; or as gap findings in the spec's AI
+  Review tab with `as-gap-review-findings`. Only Examples that don't pass yet lead to them: on a spec whose
+  Examples all pass already, `automate-spec` says so and changes nothing, whatever the options.
+- `automate-spec` can work on part of a spec: the Examples and Rules that the lines `--only-lines` gives are on,
+  or those named in the request. With SpecBinder IntelliJ plugin 2026.21.0 or later, the Automate This Spec button on
+  the spec's toolbar sends the lines selected in the editor, and its menu sets the options above.
+- `review-spec` can review part of a spec: the Examples and Rules that the lines `--only-lines` gives are on. With
+  SpecBinder IntelliJ plugin 2026.21.0 or later, the Review This Spec button and Review with AI send the lines
+  selected in the editor.
+- `review-spec` can review several spec files or folders in one go: every spec file among them, in the order the
+  IDE's Project view lists them, for every kind of finding, each spec by a subagent of its own where the agent has
+  them, and then sums up each spec's findings. The findings of kinds a spec has unticked are set aside on its AI
+  Review tab. Needs SpecBinder IntelliJ plugin 2026.21.0 or later, whose Review with AI, in the SpecBinder submenu
+  of the Project view's and the spec editor's context menus, sends the files and folders selected.
 - New `restructure-spec-folders` skill restructures the spec folders, with their test code, so they reveal what
   the system does: by business capability by default, or by a principle you give, or as a tidy-up of the current
   tree.
 - When the gap kind is ticked, a review also looks for missing edge cases in each Rule and offers the missing
   Examples as fixes. Projects can add their own edge cases in their guidelines.
-- New `split-spec` skill moves the top-level Features of a spec file that holds several into spec files of
-  their own, rewriting the links between them, and in a Java project creates their test classes and sorts the
+- New `separate-out-specs` skill moves the top-level Features of a spec file that holds several into spec files
+  of their own, rewriting the links between them, and in a Java project creates their test classes and sorts the
   step methods between them, rebuilding until everything compiles.
+- `separate-out-specs` can move the specs that the lines `--only-lines` gives are on, the first one included, as long
+  as one stays in the file. When the first moves out and the file's name no longer fits the spec left at its top,
+  it suggests a new name. Given several files or a folder, it lists the files among them that hold more than one
+  spec and separates them all out, in the order the IDE's Project view lists them, rebuilding once. With SpecBinder IntelliJ plugin 2026.21.0 or later, Separate
+  Out Specs into Their Own Files, in the SpecBinder submenu of the Project view's and the spec editor's context
+  menus, sends the files and folders selected, or the lines selected in the editor.
 - A split finding's fix now leaves the spec fully split: an Example becomes complete Examples, a Rule becomes
   narrow Rules with its Examples shared out between them, and a spec covering several aspects becomes several
   Features in the same file, each with its own title, story and Rules.
@@ -148,6 +175,9 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   what the spec says or how it is put together. In the starter guidelines, a missing `Given`, `When` or `Then`,
   one concept named differently, jargon, a passive `When` and a counter-example placed before its main case
   are now suggestions, and a Rule whose title and description run past three lines is now polish.
+- The starter guidelines no longer flag the long description of an Example that has no steps yet, or of a Rule
+  that has no Examples yet, since it says what the case will show. Once its steps are written, they flag the
+  description lines that only retell them, with a fix that removes them.
 
 ### Fixed
 

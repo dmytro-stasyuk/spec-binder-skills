@@ -1,7 +1,7 @@
 # Wiring a SpecBinder spec to Java (JUnit 5)
 
 How a spec file becomes a runnable JUnit 5 test, and how to write the code behind it. Shared by
-`automate-spec`, `split-spec` and `restructure-spec-folders`.
+`automate-spec`, `separate-out-specs` and `restructure-spec-folders`.
 
 When this file and the project disagree, the project wins: read the generated code and copy what it does.
 
@@ -227,6 +227,13 @@ project's wrapper (`./mvnw`, `./gradlew`) when there is one:
   module).
 - Check the run included the Examples under Rules (they run as nested classes such as `CartTest$Rule_1`). If
   they are missing, widen the filter to `CartTest*`.
+- Run some of its Examples: find each one's test method in the generated class by its `@DisplayName`
+  (`scenario_2`, or `rule_1_scenario_2` in the nested class `Rule_1`), then filter on it:
+  `mvn -Dtest='CartTest#scenario_2+scenario_3' test`, `mvn -Dtest='CartTest$Rule_1' test`, or
+  `gradle test --tests 'com.acme.cart.CartTest$Rule_1.rule_1_scenario_2'`. Check the results hold those Examples
+  and no others; if the filter missed one, run the whole class and read the results for those Examples only.
+- Run every test of a module: `mvn test -pl <module>` or `gradle :<module>:test`, or just `mvn test` or
+  `gradle test` in a single-module build.
 
 If the project's own instructions (its agent instructions file, such as `AGENTS.md` or `CLAUDE.md`) say how to
 build or run tests, follow them instead.

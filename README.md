@@ -2,8 +2,8 @@
 
 A plugin for Claude Code and Codex that gives your coding agent skills for working with
 [SpecBinder](https://specbinder.dev) Gherkin spec files (`.specb` / `.feature`): reviewing them, turning them into
-running tests, and splitting them when they cover too much. Its review checks a spec against your project's
-guidelines, which you can start from the starter guidelines it offers. The findings appear in the spec editor of
+running tests, and separating out the specs of a file that holds several. Its review checks a spec against your
+project's guidelines, which you can start from the starter guidelines it offers. The findings appear in the spec editor of
 IntelliJ IDEA, where you can apply or dismiss them, or go through them with the agent in the same session.
 [All skills](#skills) are listed below.
 
@@ -16,7 +16,7 @@ https://github.com/user-attachments/assets/0d52355f-a508-4166-817b-c7bbf325c2d1
   2026.20.0 or later installed.
 - The IDE's MCP server enabled, with your agent connected to it. See the next section.
 - For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), and for moving test code in
-  `split-spec`: a Java project built with Maven or Gradle.
+  `separate-out-specs`: a Java project built with Maven or Gradle.
 
 ## Setup
 
@@ -76,8 +76,15 @@ the review in its session. When the review is ready, **Show** on the IDE's notif
 the first finding. The button's arrow, and a toggle per kind on the AI Review tab's toolbar, list the eight kinds
 with a tick each. Untick a kind to leave it out of the spec's next review and set its current findings aside; tick
 it again to bring them back. **Check All** and **Check None** pick quickly, and a spec you haven't chosen for
-starts from your last selection. Naming kinds in the request itself ("review Cart.specb for blockers and issues
-only") overrides the ticks for that review.
+has every kind ticked. Naming kinds in the request itself ("review Cart.specb for blockers and issues only")
+overrides the ticks for that review.
+
+With SpecBinder IntelliJ plugin 2026.21.0 or later, lines selected in the editor narrow the review to the Examples
+and Rules they are on (`--only-lines=12-30`), and **Review with AI**, in the SpecBinder submenu of the Project
+view's and the spec editor's context menus, reviews a spec, the spec files selected, or every spec file in a
+folder. A folder or several files are reviewed for every kind, in the order the Project view lists them, each spec
+by a subagent of its own where the agent has them. The findings of kinds a spec has unticked are set aside on its
+AI Review tab, and the agent sums up each spec's findings at the end.
 
 ![The Review Checks menu, listing the eight kinds of finding, each with a tick](docs/images/review-kinds.png)
 
@@ -105,14 +112,37 @@ file and cursor position from the IDE.
 
 | Skill | What it does |
 |---|---|
-| `automate-spec` | Wires a spec to a JUnit 5 test and writes step methods that exercise the production code the way the project's existing specs and tests do, reusing its existing steps. Runs the tests and reports. A step the code can't support yet fails with a message saying what's missing. |
+| `automate-spec` | Wires a spec to a JUnit 5 test and writes step methods that exercise the production code the way the project's existing specs and tests do, reusing its existing steps. Runs the tests and reports. A step the code can't support yet fails with a message saying what's missing. On request it also builds the feature test-first, and adds the cases the spec doesn't cover to it ([options](#automating-a-spec)). |
 
 **Restructure specs**
 
 | Skill | What it does |
 |---|---|
 | `restructure-spec-folders` | Restructures the spec folders so they reveal what the system does: by default by business capability and use case, never by technical layer or test type; or by a principle you give; or just tidies them. Moves each spec with its test class and the test code it shares, shows the plan first and rebuilds afterwards. |
-| `split-spec` | Moves the top-level Features of a spec file that holds several into spec files of their own, rewriting the links between them. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. |
+| `separate-out-specs` | Moves the top-level Features of a spec file that holds several into spec files of their own, rewriting the links between them: every one but the first, or the ones you name or select with `--only-lines`, the first included, as long as one stays. Given several files or a folder, it does so for every file among them that holds more than one. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. In IntelliJ IDEA, **Separate Out Specs into Their Own Files**, in the SpecBinder submenu of the Project view's and the spec editor's context menus, runs it on the files and folders selected, or on the specs selected in the editor. |
+
+### Automating a spec
+
+`automate-spec` takes these options, or the same said in plain words:
+
+- `--implement` also builds the feature, test-first. One Example at a time, the agent writes its steps, sees them
+  fail, writes just enough code to make them pass and tidies up. It builds nothing no Example asks for, and where
+  the system already behaves differently from the spec, the spec wins. Its values:
+  - `implement-using-subagent`: a subagent writes the code. It can't change the tests, and the agent checks what
+    it changes and runs the tests itself;
+  - `refactor-using-subagent`: once the feature is built, another subagent refactors the code, and the agent
+    checks it the same way.
+- `--add-uncovered-cases` adds the cases the spec doesn't cover, met in the code, to the spec as Examples or Rules
+  with a title and a description of what each involves and what the system does now, for you to write or delete.
+  Only Examples that don't pass yet lead to them, so a spec that passes already gets none. Its values:
+  - `complete-with-scenario-steps`: full Examples instead, whose `Then` states what the system does now;
+  - `as-gap-review-findings`: gap findings in the spec's AI Review tab instead, to apply or dismiss.
+- `--only-lines=12-30` works only on the Examples and Rules those lines are on, such as the lines selected in the
+  editor.
+
+Values are separated by commas: `--implement=implement-using-subagent,refactor-using-subagent`. With SpecBinder
+IntelliJ plugin 2026.21.0 or later, the **Automate This Spec** button on the spec's toolbar automates the spec, or the
+part of it selected in the editor, in the spec's Claude Code session, and its menu sets these options.
 
 ## Project guidelines
 

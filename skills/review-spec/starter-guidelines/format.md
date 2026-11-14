@@ -12,6 +12,8 @@ Kind: polish
 - Flag (suggestion): a description line that states testable behaviour, which belongs in a Rule, or that repeats
   a Rule of this spec or another one.
 - Flag (polish): a Rule whose title and description together take more than three lines.
+- An Example with no steps yet, or a Rule with no Examples yet, is a case still to write, and its description
+  holds what its steps will show: neither check above applies to it.
 - Flag: a line longer than 140 characters.
 - Flag: a description line (under an Ability, Rule, Example or Background) that starts with a capitalised
   Gherkin keyword such as `Given`, `When`, `Then`, `And`, `But`, `Rule` or `Example`, which the editor

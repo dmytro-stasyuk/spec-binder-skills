@@ -1,12 +1,13 @@
 ---
 name: review-spec
-description: Review a SpecBinder Gherkin spec file (.specb / .feature) against the project's review guidelines, set up on request from starter guidelines, and publish the findings to the spec editor in IntelliJ IDEA, then discuss and fix them with the author. Use when asked to review, critique or check a spec or feature file, to go through its review findings, or to set up a project's review guidelines.
-argument-hint: <path to .specb or .feature file> [--ide <port>]
+description: Review a SpecBinder Gherkin spec file (.specb / .feature), part of one, or every spec file in the files and folders given, against the project's review guidelines, set up on request from starter guidelines, and publish the findings to the spec editor in IntelliJ IDEA, then discuss and fix them with the author. Use when asked to review, critique or check a spec or feature file, or the specs in a folder, to go through its review findings, or to set up a project's review guidelines.
+argument-hint: <paths of .specb or .feature files, or of folders> [--only-lines=<lines>] [--ide <port>]
 ---
 
 # Reviewing a SpecBinder spec
 
-You review one spec file with the author. Findings are published to the IDE, where each is highlighted on the
+You review a spec file, or part of one, with the author; given several files or a folder, you review every spec file
+among them, as [Several specs, or a folder](#several-specs-or-a-folder) says. Findings are published to the IDE, where each is highlighted on the
 text it is about, by kind, and listed in the spec's AI Review tab when the author has it turned on. The author
 can work through them in the IDE alone, applying a finding's fix or dismissing it, or with you in this
 conversation, or both. Don't assume they will come back to discuss them.
@@ -23,9 +24,11 @@ a spec uses names the keywords literally.
 The IntelliJ SpecBinder plugin adds three tools to the IDE's MCP server. Their names end with:
 
 - `specbinder_get_review_scope`: which kinds of finding to report for this spec, as the author has ticked them
-  in the IDE. Given the IDE port from the request, it also checks that this session is connected to that IDE.
+  in the IDE, or every kind given `everyKind: true`. Given the IDE port from the request, it also checks that this
+  session is connected to that IDE.
 - `specbinder_publish_spec_review`: publishes a review. It replaces the spec's previous review and returns the
-  numbered findings, plus any finding it turned down and why.
+  numbered findings, plus any finding it turned down and why. A finding of a kind the author has unticked is turned
+  down, unless it is given `everyKind: true`.
 - `specbinder_get_spec_review`: the findings still open, with their fixes. A finding closes when the author
   dismisses it, applies its fix, or edits the text it quotes. Findings whose kind the author has unticked are
   listed as set aside: don't raise them. Then it lists the findings the author dismissed, from this review or
@@ -57,6 +60,19 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
    Otherwise it answers `Report: …` and `Skip: …`. The kinds after `Report:` are **the kinds to report**. If the
    author named kinds in their request ("blockers and issues only"), those are the kinds to report instead, for
    this review only; say so. If it says every kind is unticked, tell the author and stop.
+
+   With `--only-lines=<lines>`, such as `--only-lines=7` or `--only-lines=12-30` (several lines or ranges are
+   separated by commas), review only the parts of the spec those lines are on; the IDE's Review This Spec button
+   and its Review with AI send the lines selected in the editor. A line takes in:
+   - the Example it is on, an Example's lines running from the tags just above its keyword line to its last line;
+   - the whole Rule, when it is one of the Rule's own lines before its first Example: its title, description or
+     Background;
+   - the whole spec, when it is one of the spec's own lines before its first Rule or Example.
+
+   Report findings only on those parts, and checks that concern the spec as a whole, such as its story or file
+   name, only when the lines take in the whole spec. If the lines run past the end of the spec, or are on no part
+   of it (blank lines between Examples, say), ask: the spec may have changed since they were taken. Publishing
+   still replaces the spec's whole review, so its findings elsewhere are cleared: say so in the summary.
 
    Also call `specbinder_get_spec_review`. Any finding it lists under "Dismissed by the author" was rejected
    by the author: don't raise it again in this review, nor another finding of the same category on that text.
@@ -297,6 +313,27 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
 6. **Summarise.** List the findings in the chat, one line each, in the order of their `#number`s, which is the
    order they appear in the spec, written as [Writing for the author](#writing-for-the-author) says. Offer to fix
    or discuss any of the findings, and mention that the author can also apply or dismiss each one in the IDE.
+
+## Several specs, or a folder
+
+The request names one spec file, or several files and folders; a folder stands for every spec file beneath it,
+in its subfolders too. The IDE's Review with AI sends the files and folders selected in its Project view. With
+more than one spec file to review:
+
+1. **List them in order**: the files and folders as the request gives them, and beneath a folder its own spec
+   files first, alphabetically, then each of its folders, alphabetically, the same way down. That is the order
+   the IDE's Project view lists them in. Files that aren't specs are left out. If there are none, say so and stop.
+2. **Review every kind** of finding, whichever the author has ticked for each spec: pass `everyKind: true` to
+   `specbinder_get_review_scope` and to `specbinder_publish_spec_review` for every spec, and ignore kinds named in
+   the request and `--only-lines`. The findings of a kind the author has unticked for a spec are published and set
+   aside on its AI Review tab, where ticking the kind shows them.
+3. **Review each spec** as steps 1 to 5 say, without stopping to discuss any of them. Where you can start
+   subagents, give each spec to a subagent of its own, running several at once, as many as suits the run: tell
+   each to follow this skill for its one spec, with the `--ide` port from the request and `everyKind: true`, and
+   to report back only how many findings of each kind it published, or why it couldn't. Without subagents, review
+   the specs one after another.
+4. **Summarise** once every spec is done: each spec, in the order of step 1, with its count of findings by kind,
+   and any spec that couldn't be reviewed, with why. Offer to go through the findings of any of them.
 
 ## Writing for the author
 

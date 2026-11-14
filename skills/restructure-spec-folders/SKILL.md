@@ -74,7 +74,7 @@ they differ, before you ask. A one-line description of each option isn't enough 
     - otherwise it goes with the capability it mainly concerns.
 
     Either way it is named in the report as a candidate for splitting: a review's split finding divides it into
-    blocks in the same file, then `split-spec` moves them into files of their own. Rerun this skill afterwards
+    blocks in the same file, then `separate-out-specs` moves them into files of their own. Rerun this skill afterwards
     to file them.
 - **By another principle.** When the user names one ("by persona", "by product area"), design the tree by that
   principle instead. For "by persona", group by the `As a …` role of each spec's story, merging similar roles;
