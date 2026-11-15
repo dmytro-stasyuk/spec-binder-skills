@@ -22,6 +22,9 @@ Kind: issue
   reader has to read. Lines that add what neither the title nor the Examples carry, such as what a term means, a
   reason that isn't obvious or a pointer to another spec, stay. Its fix removes the other lines, and the whole
   description when none stay.
+- Flag (suggestion): Example description lines that only retell what its steps show, as a description written
+  before the steps does once they are added. Lines that add what neither the title nor the steps carry stay. Its
+  fix removes the other lines, and the whole description when none stay.
 - Flag (suggestion): a `Then` that checks an outcome other Examples of the spec already show, under the Rule
   whose criterion it is: it repeats them and blurs what this Example is about. Its fix removes it, turning the
   `And` that follows into a `Then` when it was the first.

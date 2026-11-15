@@ -19,6 +19,11 @@ keyword (`Feature`, `Ability`, `Business Need`, `Narrative`), `Example:` for `Sc
 role: a step written with `And`, `But` or `*` takes the role of the step before it. A check about which keyword
 a spec uses names the keywords literally.
 
+A data table whose first row opens with `!` in place of the first `|` is written vertically: its names run down
+the first column, where a normal table has them in its header row, and each further column is one record. Its
+other rows open with `|`, and the `!` lines up with the `|`s below it. The step gets the same records as from the
+table written normally. An `Examples:` table is always written normally.
+
 ## Tools
 
 The IntelliJ SpecBinder plugin adds three tools to the IDE's MCP server. Their names end with:

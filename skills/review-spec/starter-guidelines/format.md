@@ -15,6 +15,10 @@ Kind: polish
 - An Example with no steps yet, or a Rule with no Examples yet, is a case still to write, and its description
   holds what its steps will show: neither check above applies to it.
 - Flag: a line longer than 140 characters.
+- A data table with such a line is fixed by turning it around, when every line of the turned table fits in 140
+  characters. A normal table turns vertical: its first row opens with `!` in place of the first `|`, its header
+  names run down the first column and each of its rows becomes a column. A vertical table turns normal. The step
+  gets the same records either way. An `Examples:` table is always written normally.
 - Flag: a description line (under an Ability, Rule, Example or Background) that starts with a capitalised
   Gherkin keyword such as `Given`, `When`, `Then`, `And`, `But`, `Rule` or `Example`, which the editor
   mistakes for a real keyword.
@@ -38,7 +42,8 @@ Kind: polish
 - Flag (suggestion): a step that joins several concerns, such as setting up content and a state at once, where
   separate single-concern steps already used in the project would compose.
 - Flag: a nested doc-string fence inside a doc string that does not escape all three quotes (`\"\"\"`).
-- Flag: data tables and `Examples:` tables whose pipes don't line up in columns.
+- Flag: data tables and `Examples:` tables whose pipes don't line up in columns, counting the `!` that opens a
+  vertical table as a pipe.
 - Flag: a `Background:` with a title or description that only restates its steps.
 - Flag (suggestion): visual or spatial state (editor content, a cursor position, a rendered table or panel)
   named by a word or a coordinate where a doc string showing it would let the reader see it, in setup and

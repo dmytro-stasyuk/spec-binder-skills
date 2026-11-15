@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- `review-spec` and `automate-spec` understand data tables written vertically, whose first row opens with `!` in
+  place of the first `|`. In the starter `format` guidelines, a table line over 140 characters is fixed by turning
+  the table around, from normal to vertical or back, when every line then fits. `automate-spec` wires a vertical
+  table's step as it would the table written normally, and writes a table it adds to a spec vertically when only
+  that layout fits. Vertical tables need SpecBinder 2026.52.0 or later.
 - Each review finding now names the guideline check that flagged it, so in IntelliJ IDEA its card in the AI Review
   tab links to that check: hover to read it, click to open the guideline file on it and tune it. Needs
   SpecBinder IntelliJ plugin 2026.20.0 or later.

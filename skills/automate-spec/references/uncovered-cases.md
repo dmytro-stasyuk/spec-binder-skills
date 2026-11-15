@@ -56,6 +56,11 @@ Each case is a full Example: a title naming the situation and the `Given`, `When
 the spec's and the project's step phrasings word for word where one fits. A new Rule has a title stating its
 criterion and an Example of its main case. It needs no long description.
 
+Write a data table normally, its names in a header row. When a line of it would run past 140 characters and the
+table turned around would fit, write it vertically instead: its first row opens with `!` in place of the first
+`|`, the names run down the first column and each further column is one record. An `Examples:` table is always
+written normally.
+
 The `Then` states what the system does now. Where that is a crash or plainly unintended, such as an error thrown
 from deep in the code, state the outcome you would propose instead, and say in the report that it is a proposal.
 

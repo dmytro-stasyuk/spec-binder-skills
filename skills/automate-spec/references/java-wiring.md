@@ -121,6 +121,13 @@ is for the IDE only; the value is still a `String`.
 - `LIST_OF_MAPS`: `List<Map<String, String>>`, header cells as keys.
 - `CUCUMBER_DATA_TABLE`: a `DataTable`; needs a `getTableConverter()` in the hierarchy.
 
+A table whose first row opens with `!` in place of the first `|` is written vertically: the names run down its
+first column and each further column is one record. It reaches the step as the table written normally would: by
+default, one `XParam` per value column, its names matched to the fields of your own `XParam` as a header row's are;
+with `LIST_OF_MAPS`, one map per value column, keyed by the names; with `CUCUMBER_DATA_TABLE`, a `DataTable` already
+turned to the normal layout, so `asMaps()` needs no `transpose()`. A vertical and a normal table on steps ending with
+the same word share one `XParam` type.
+
 **JUnit-resolved parameters.** A step can also receive `TestInfo`, `TestReporter`, `@TempDir Path`, or a value
 from a custom `ParameterResolver` (marked `@JUnitResolved`). The generator only sees the marker's hierarchy, so
 declare such a step there with its full signature: as an abstract method in abstract mode, implemented by
