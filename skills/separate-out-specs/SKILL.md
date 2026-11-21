@@ -11,8 +11,9 @@ A SpecBinder spec file can hold several top-level blocks, one after another: `Ab
 blocks out of such a file into spec files of their own, and in a Java project their test code moves with them.
 Below, "block" means one of these top-level blocks with everything under it.
 
-Dividing one block into several is a different step, done before this one (a review's split finding does it, for
-example). Given a single file with a single top-level block, stop and say so.
+Dividing one block into several is a different step, done before this one: `move-under-new-spec` moves the Rules
+and Examples the author picks under a new block, and a review's split finding divides a block too. Given a single
+file with a single top-level block, stop and say so.
 
 ## Several files, or a folder
 

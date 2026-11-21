@@ -1,7 +1,7 @@
 # Building the feature test-first
 
 With `--implement`, you build what the spec describes, driven by its Examples, rather than leaving steps "Not yet
-drivable". Steps 1 to 4 of the skill come first; this replaces its steps 5 to 7, and says when its steps 8 and 9
+drivable". Steps 1 to 4 of the skill come first; this replaces its steps 5 to 7, and says when its steps 8 to 10
 come.
 
 Write no tests but the spec's: its Examples are what drive the code. Build nothing an Example doesn't ask for. A
@@ -74,7 +74,8 @@ run.
 5. **Check your own changes**, when no subagent wrote the code: look for
    [code that fits only the spec's values](#code-that-fits-only-the-specs-values) and
    [build changes that change how tests run](#build-files), and fix what you find.
-6. **Report**, as step 9 of the skill and [Reporting](#reporting) say.
+6. **Remove the step methods nothing calls**, as step 8 of the skill says, then run the modules' tests again.
+7. **Report**, as step 10 of the skill and [Reporting](#reporting) say.
 
 ## The refactoring pass
 

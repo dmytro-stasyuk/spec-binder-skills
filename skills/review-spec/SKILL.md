@@ -44,6 +44,12 @@ The IntelliJ SpecBinder plugin adds three tools to the IDE's MCP server. Their n
 Reading the spec needs no tool of ours: the IDE's own file tools (`read_file`, or `get_file_text_by_path` on
 an IDE that lacks it) already return a file as the editor currently has it, unsaved changes included.
 
+If you reach the IDE's tools only through its `execute_tool`, which takes a whole call as one command line, the
+line is split into words as a shell would split it, so an apostrophe or quote in `findings` breaks the JSON
+apart. Put the JSON in double quotes and add a backslash before every `"` in it, those already after a
+backslash included: `--findings "[{\"message\": \"the Example's step \\"x\\"\"}]"`. Inside double quotes a
+backslash is dropped only before a `"`, so the JSON arrives as written, apostrophes and `\n` included.
+
 If the `specbinder_*` tools are not available, stop. Tell the author that the review needs:
 1. IntelliJ IDEA 2025.2 or later, with the SpecBinder plugin 2026.20.0 or later installed.
 2. The MCP server enabled in Settings › Tools › MCP Server.
@@ -214,8 +220,8 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      `"Lead.\nMore about the problem.\nThe fix …"`. Write it as [Writing for the author](#writing-for-the-author)
      says.
    - Every finding proposes a fix, `rewrite`: always a list of edits, each with a `text` that is the new wording.
-     The exceptions are `question` and `praise` findings, which have none, and a finding about the spec file's
-     name, whose fix is a `rename` (see below).
+     The exceptions are `praise` findings, which have none, and a finding about the spec file's name, whose fix is
+     a `rename` (see below). A `question` finding's fix is the answer you would recommend (see below).
      - `[{"text": "..."}]` replaces **exactly the quoted span**, so `text` must read correctly in its place. Such
        an edit is always the fix's only one.
      - `[{"fromLine": 8, "toLine": 14, "replaces": "...", "text": "..."}]` is for a problem whose fix reaches
@@ -261,6 +267,10 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      system does now, as its production code or tests show where you can read them, or else for the outcome that
      fits the Rule's criterion and its neighbouring Examples best. Say in the message that the `Then` is a proposal
      to confirm, and name the other outcomes the author could choose instead.
+   - A `question` finding's fix makes the change that the answer you would recommend calls for, as its check
+     says when it names one. Say in the message that the fix is a proposal, for the author to apply or dismiss, and
+     name the other answers they could choose instead. A fix changes only the spec under review, so recommend an
+     answer that changes this spec, and name one that would change another spec file as an alternative.
    - A fix that moves an outcome or an Example to another Rule, such as for a `split` finding or for an `issue`
      that an Example illustrates another Rule's criterion, moves it to the Rule whose criterion it shows. An
      unrelated `Then` becomes a new Example there, repeating the `Given` and `When` it needs, and leaves the

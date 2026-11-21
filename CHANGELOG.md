@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ### Added
 
+- New `move-under-new-spec` skill moves the Rules and Examples you pick, by the lines you give with `--only-lines`
+  or by title, under a new top-level Feature of their own in the same spec file, right after the one they came
+  from. It writes a title and user story for them, narrows the original's title and story where they no longer
+  fit what's left, and links the two with `Out of scope` lines. Examples picked without their Rule go under a Rule
+  that states what they show. Each `Background:` keeps only the steps its own Examples rely on, keeping any step
+  in doubt, and every step removed is listed. With `--verify`, in a Java project, it runs the spec's tests before
+  and after and puts back any step an Example turns out to need. With `--as-review-finding`, it publishes the
+  change as a split finding in the AI Review tab for you to apply or dismiss, instead of writing it. With
+  `--own-file`, it goes on to move the new Feature into a file of its own.
+- New `move-under-new-rule` skill moves the Examples you pick, by the lines you give with `--only-lines` or by
+  title, under a new Rule of their own in the same spec, titled with the criterion they show and placed after the
+  Rule it is closest to. It narrows the Rule they leave where it no longer fits what's left, and trims each Rule's
+  `Background:` to the steps its own Examples rely on, keeping any step in doubt and listing every step removed.
+  When the Examples you pick are all of a Rule's Examples and show its criterion, it says they already have a Rule
+  of their own and changes nothing. `--verify` and `--as-review-finding` work as in `move-under-new-spec`.
 - `review-spec` and `automate-spec` understand data tables written vertically, whose first row opens with `!` in
   place of the first `|`. In the starter `format` guidelines, a table line over 140 characters is fixed by turning
   the table around, from normal to vertical or back, when every line then fits. `automate-spec` wires a vertical
@@ -33,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 - `automate-spec` can work on part of a spec: the Examples and Rules that the lines `--only-lines` gives are on,
   or those named in the request. With SpecBinder IntelliJ plugin 2026.21.0 or later, the Automate This Spec button on
   the spec's toolbar sends the lines selected in the editor, and its menu sets the options above.
+- Once a spec's steps are wired, `automate-spec` removes the step methods that no spec calls any more, such as one
+  for a step the spec has reworded or dropped, and lists them in its report. It keeps those whose step is still in
+  a spec that isn't generated yet.
 - `review-spec` can review part of a spec: the Examples and Rules that the lines `--only-lines` gives are on. With
   SpecBinder IntelliJ plugin 2026.21.0 or later, the Review This Spec button and Review with AI send the lines
   selected in the editor.
@@ -136,7 +154,8 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   files no longer change or remove default checks, since there are none: repeating a category's heading only
   matters within the project's own files. Every section of the guidelines needs a `Kind:` line. Only a heading with
   a name in backticks makes a section a category; findings from any other section show no category.
-- Every finding now comes with a proposed fix you can apply, except questions and praise. When the agent can't
+- Every finding now comes with a proposed fix you can apply, except praise. A question's fix makes the change the
+  agent would recommend, and its message names the other answers you could choose instead. When the agent can't
   propose one, the summary says why.
 - In the starter guidelines, an Example that belongs under another Rule of the spec, by its acceptance criterion
   or by the event its `When` triggers, is now an issue whose fix moves it there. It is a split only when no Rule
@@ -145,7 +164,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   covers an aspect another spec file already covers, a review now looks through the project's other spec files
   first, so it finds such a spec rather than only one it happened to know about.
 - The starter guidelines also ask about a Rule or Example that another spec file of the project already has,
-  naming that file and its Rule or Example for you to decide which spec it belongs in.
+  naming that file and its Rule or Example for you to decide which spec it belongs in. The question's fix, like
+  that of the one about a spec covering an aspect another spec file already covers, takes what both specs say out
+  of the spec under review and leaves it to the other one: a repeated Example keeps only the outcomes the other
+  doesn't check.
+- In the starter guidelines, the suggestions to move `Given` steps every Example repeats into a `Background:`, and
+  to turn Examples that differ only in their values into a `Scenario Outline`, now come with a fix that does it.
 - Review findings are now written in plain words: each names the Rules and Examples it is about by their quoted
   title, rather than by a shorthand of its own or a line number that goes stale once an earlier fix moves
   lines, and may take up to three short sentences where one couldn't say it clearly. Each is said the way a
@@ -191,6 +215,9 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   Needs SpecBinder IntelliJ plugin 2026.20.0 or later.
 - A fix that rewrites or removes a description no longer takes the blank line after it too, which ran the
   description or the Rule's title into the Example below once the fix was applied.
+- Reviews whose findings contain apostrophes or quotes now publish at the first try for agents that reach the IDE
+  through a single command-line tool. Before, the first attempt could fail and the agent had to work out the
+  quoting before trying again.
 
 ### Removed
 

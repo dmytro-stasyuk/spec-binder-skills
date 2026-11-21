@@ -80,7 +80,7 @@ Change production code only when the request has `--implement` or plainly asks y
    As you read the production code that the selected Examples not already passing drive, note each **uncovered
    case**: behaviour it has that no Example of the spec shows, such as a branch that turns down a negative
    quantity or an error for an unknown product. Note only what you come across; don't go looking for edge cases.
-5. **Write the steps.** With `--implement`, steps 5 to 9 go as [implementing.md](references/implementing.md)
+5. **Write the steps.** With `--implement`, steps 5 to 10 go as [implementing.md](references/implementing.md)
    says instead: it builds the feature one Example at a time, writing each one's steps as the bullets below say,
    and then adds the uncovered cases and reports in its own order. Otherwise, in abstract mode, create
    or complete `<Name>Test`. In concrete mode, add the steps to the marker (see "Where step implementations
@@ -100,7 +100,7 @@ Change production code only when the request has `--implement` or plainly asks y
    writes these stubs.
 
    In abstract mode, if a sibling test already has the same `Given` or `When` step with the same body, hoist it
-   as "Where step implementations live" describes. Don't edit the spec, except to add uncovered cases in step 8,
+   as "Where step implementations live" describes. Don't edit the spec, except to add uncovered cases in step 9,
    and don't change production code.
 6. **Compile.** Build the test sources with Maven or Gradle until there are no errors (see "Compiling and running
    one test class" and "Reading compile errors"). In concrete mode a spec can compile with steps still missing,
@@ -110,9 +110,15 @@ Change production code only when the request has `--implement` or plainly asks y
    code, or a difference between the spec and the system (see "Reading test results"). Fix wiring bugs, and in
    concrete mode write any step still reported as "Step is not yet implemented", then run again until only the
    other two are left. Never stop at "it compiles".
-8. **Add the uncovered cases**, with `--add-uncovered-cases`, as [uncovered-cases.md](references/uncovered-cases.md)
+8. **Remove the step methods nothing calls.** Wiring leaves step methods behind: one for a step the spec has
+   reworded or dropped, one whose step moved to a shared place, one a class overrides for steps its specs no
+   longer have. In the classes this run touched, and the marker, base classes and step interfaces they inherit
+   steps from, delete each step method that no generated class inheriting it calls, as "Finding step methods
+   nothing calls" in [java-wiring.md](references/java-wiring.md) says, with any helper only it used. Then compile
+   and run again, as steps 6 and 7 say.
+9. **Add the uncovered cases**, with `--add-uncovered-cases`, as [uncovered-cases.md](references/uncovered-cases.md)
    says. Without it, they go in the report only.
-9. **Report**, briefly:
+10. **Report**, briefly:
    - the files you created or changed, and the layout you used (and that it is the simple layout, for a
      project's first spec);
    - the result per selected Example: passing, failing because something is missing, or failing because the
@@ -123,4 +129,5 @@ Change production code only when the request has `--implement` or plainly asks y
    - **Uncovered cases:** one line per case, and where it went: added to the spec, published to the IDE, or only
      listed here;
    - steps you hoisted into a shared place, and any spec wording you think should change (don't change it);
+   - the step methods you removed because nothing called them, and the classes they were in;
    - with `--implement`, also what [implementing.md](references/implementing.md#reporting) lists.

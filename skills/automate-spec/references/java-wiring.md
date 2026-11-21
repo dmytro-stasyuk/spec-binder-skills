@@ -158,6 +158,40 @@ under that marker inherits the one implementation. So:
   private helper it uses) to the shared place, delete every copy, rebuild, and re-run each affected test.
   A copy you missed shows up as "method does not override or implement a method from a supertype".
 
+## Finding step methods nothing calls
+
+Only generated classes call step methods: each scenario method of a `*Scenarios` class (abstract mode) or a
+generated `*Test` (concrete mode) calls the method of each step it has, as a composite step's method does for its
+sub-steps. A step method nothing calls is left behind when a spec rewords or drops a step, when a step moves to a
+shared place, or when a class keeps an override of a step its specs no longer have. In abstract mode the compiler
+flags an `@Override` whose step no generated class declares any more (see "Reading compile errors"); the methods it
+doesn't flag are the ones to look for: steps on markers, base classes and step interfaces, and overrides of a step
+that a class above still declares.
+
+1. Rebuild first, so every generated class is regenerated from the spec files as they are now: a stale one still
+   calls the step its spec dropped.
+2. Take as candidates the step methods, named from a step's text as "Names" says, on the classes this run touched
+   and on the markers, base classes and step interfaces they inherit steps from. Hooks (`@BeforeEach`,
+   `@AfterEach`), accessors and helpers are not step methods.
+3. For each candidate, find the generated classes that inherit it: those of every marker that is, extends or
+   implements the class it is on. For a shared base class or step interface that means the generated classes of
+   every marker in the project that uses it, not only this spec's. Search them for a call to it (`methodName(`);
+   an IDE's find-usages answers this at once, when one is connected.
+4. Keep a method that is called anywhere else in the test sources: from another step's body, a helper or a
+   hand-written test. Keep, and list in the report, a method whose step is still in a spec file that has no
+   generated class, such as one the generator skips: it may be wired later.
+5. Delete each of the rest, with the private helpers, fields and imports only it used. Rebuild, and run the tests
+   of every spec whose generated classes inherit from a class you changed. A method you shouldn't have deleted
+   shows up in abstract mode as a compile error, the generated class still declaring it abstract, and in concrete
+   mode as the regenerated `<Name>Test` stubbing its step again.
+
+An override with the same body as the method above it is not unused: the generated classes call it. Removing it
+is hoisting (see "Where step implementations live"), and it changes what the step works on: the method above
+writes its own class's fields, not the override's, so a step of the class that reads those fields then reads
+nothing. Java also prefers a superclass's method to an interface's default one, so removing an override from a
+class that extends one and implements the other can run the superclass's version. After removing an override,
+check which method each call now reaches.
+
 ## Finding the project's existing wiring pattern
 
 Before creating anything, look at how the project already does it, and copy that:

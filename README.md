@@ -15,8 +15,9 @@ https://github.com/user-attachments/assets/0d52355f-a508-4166-817b-c7bbf325c2d1
 - IntelliJ IDEA 2025.2 or later, with the [SpecBinder plugin](https://plugins.jetbrains.com/plugin/30540-specbinder-beta-)
   2026.20.0 or later installed.
 - The IDE's MCP server enabled, with your agent connected to it. See the next section.
-- For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), and for moving test code in
-  `separate-out-specs`: a Java project built with Maven or Gradle.
+- For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), for moving test code in
+  `separate-out-specs`, and for `--verify` in `move-under-new-spec` and `move-under-new-rule`: a Java project built with
+  Maven or Gradle.
 
 ## Setup
 
@@ -119,6 +120,8 @@ file and cursor position from the IDE.
 | Skill | What it does |
 |---|---|
 | `restructure-spec-folders` | Restructures the spec folders so they reveal what the system does: by default by business capability and use case, never by technical layer or test type; or by a principle you give; or just tidies them. Moves each spec with its test class and the test code it shares, shows the plan first and rebuilds afterwards. |
+| `move-under-new-spec` | Moves the Rules and Examples you pick, by the lines you give with `--only-lines` or by title, under a new top-level Feature of their own in the same file, with a title and user story written for them. It narrows the original's title and story where they no longer fit what's left, trims each `Background:` to the steps its own Examples rely on, listing every step it removes, and links the two with `Out of scope` lines. With `--verify` it runs the spec's tests before and after and puts back any step an Example turns out to need; with `--as-review-finding` it publishes the change to the AI Review tab for you to apply instead; with `--own-file` it goes on to move the new Feature into a file of its own. |
+| `move-under-new-rule` | Moves the Examples you pick, by the lines you give with `--only-lines` or by title, under a new Rule of their own in the same spec, titled with the criterion they show and placed after the Rule it is closest to. It narrows the Rule they leave where it no longer fits what's left, and trims each Rule's `Background:` to the steps its own Examples rely on, listing every step it removes. With `--verify` it runs the spec's tests before and after and puts back any step an Example turns out to need; with `--as-review-finding` it publishes the change to the AI Review tab for you to apply instead. |
 | `separate-out-specs` | Moves the top-level Features of a spec file that holds several into spec files of their own, rewriting the links between them: every one but the first, or the ones you name or select with `--only-lines`, the first included, as long as one stays. Given several files or a folder, it does so for every file among them that holds more than one. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. In IntelliJ IDEA, **Separate Out Specs into Their Own Files**, in the SpecBinder submenu of the Project view's and the spec editor's context menus, runs it on the files and folders selected, or on the specs selected in the editor. |
 
 ### Automating a spec

@@ -8,7 +8,7 @@
   "interface": {
     "displayName": "SpecBinder",
     "shortDescription": "Review, automate and separate out SpecBinder Gherkin specs.",
-    "longDescription": "Skills for SpecBinder Gherkin spec files (.specb / .feature): review them against your project's spec-writing guidelines with the findings shown in IntelliJ IDEA's spec editor, turn them into JUnit 5 tests, restructure the spec folders, and separate out the specs of a file that holds several into files of their own.",
+    "longDescription": "Skills for SpecBinder Gherkin spec files (.specb / .feature): review them against your project's spec-writing guidelines with the findings shown in IntelliJ IDEA's spec editor, turn them into JUnit 5 tests, restructure the spec folders, move the Rules and Examples you pick under a new spec or a new Rule of their own, and separate out the specs of a file that holds several into files of their own.",
     "developerName": "Dmytro Stasyuk",
     "category": "Coding",
     "websiteURL": "https://specbinder.dev",
