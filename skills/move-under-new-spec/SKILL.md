@@ -117,8 +117,10 @@ With `--verify`, run the tests first, as [section 5](#5-verify-with---verify) sa
 publish the change as [section 6](#6-as-a-review-finding-with---as-review-finding) says instead of writing it.
 
 Remove each moved part from the original with the blank line before it, so the parts left are separated by one
-blank line as before, and write the new block where section 3 places it. The spec's step methods stay where
-they are: a file with several blocks generates one test class, whose steps all its blocks share.
+blank line as before, and write the new block where section 3 places it. Make the change as
+[changing-a-spec-file.md](../review-spec/references/changing-a-spec-file.md) says: in the IDE's editor when you
+can, every place in one call, so the Rules and Examples the author folded stay folded. The spec's step methods
+stay where they are: a file with several blocks generates one test class, whose steps all its blocks share.
 
 With `--own-file`, go on to move the new block into a spec file of its own: follow `separate-out-specs` for the
 one file, with the new block's title as the block to move. It rewrites the `Out of scope` links to name the new

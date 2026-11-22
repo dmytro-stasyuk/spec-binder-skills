@@ -67,8 +67,10 @@ from deep in the code, state the outcome you would propose instead, and say in t
 ## In the spec file (the default)
 
 Add the cases to the spec file yourself once the selected Examples are done: with `--implement`, after the last
-Example and before the refactoring pass. Nothing marks them as yours: list them in the report by title. Then
-rebuild, so the generated class includes them.
+Example and before the refactoring pass. Add them as
+[changing-a-spec-file.md](../../review-spec/references/changing-a-spec-file.md) says: in the IDE's editor when
+you can, all in one call, so the Rules and Examples the author folded stay folded. Nothing marks them as yours:
+list them in the report by title. Then rebuild, so the generated class includes them.
 
 Wire the ones with steps as step 5 of the skill says, then compile and run them. An Example whose `Then` states
 what the system does now should pass; if it doesn't, fix the wiring. An Example with a proposed outcome fails as

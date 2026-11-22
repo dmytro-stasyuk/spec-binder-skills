@@ -104,10 +104,12 @@ With `--verify`, run the tests first, as [section 5](#5-verify-with---verify) sa
 publish the change as [section 6](#6-as-a-review-finding-with---as-review-finding) says instead of writing it.
 
 Remove each moved Example with the blank line before it, so the parts left are separated by one blank line as
-before, and write the new Rule where section 2 places it. The spec's step methods stay where they are, since its
-steps are unchanged. The generated test classes and methods are named by position (`Rule_2`,
-`rule_2_scenario_1`), so the new Rule renumbers every Rule after it, and each moved Example renumbers the
-Examples after it in its Rule.
+before, and write the new Rule where section 2 places it. Make the change as
+[changing-a-spec-file.md](../review-spec/references/changing-a-spec-file.md) says: in the IDE's editor when you
+can, every place in one call, so the Rules and Examples the author folded stay folded. The spec's step methods
+stay where they are, since its steps are unchanged. The generated test classes and methods are named by position
+(`Rule_2`, `rule_2_scenario_1`), so the new Rule renumbers every Rule after it, and each moved Example renumbers
+the Examples after it in its Rule.
 
 ## 5. Verify, with `--verify`
 

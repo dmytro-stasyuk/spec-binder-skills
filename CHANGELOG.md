@@ -207,6 +207,11 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 - The starter guidelines no longer flag the long description of an Example that has no steps yet, or of a Rule
   that has no Examples yet, since it says what the case will show. Once its steps are written, they flag the
   description lines that only retell them, with a fix that removes them.
+- When your agent is connected to IntelliJ IDEA, the skills now change a spec in its editor instead of writing the
+  file over on disk, so the Rules and Examples you folded stay folded; moving an Example used to unfold them. A
+  folded Rule the skill adds an Example to opens, so you see it, and one Undo in the IDE takes the whole change
+  back. This needs the SpecBinder IntelliJ plugin 2026.23.0 or later; with an older one your folds are kept too,
+  but a change takes one Undo per place it touches.
 
 ### Fixed
 

@@ -26,7 +26,7 @@ table written normally. An `Examples:` table is always written normally.
 
 ## Tools
 
-The IntelliJ SpecBinder plugin adds three tools to the IDE's MCP server. Their names end with:
+The IntelliJ SpecBinder plugin adds these tools to the IDE's MCP server. Their names end with:
 
 - `specbinder_get_review_scope`: which kinds of finding to report for this spec, as the author has ticked them
   in the IDE, or every kind given `everyKind: true`. Given the IDE port from the request, it also checks that this
@@ -40,6 +40,8 @@ The IntelliJ SpecBinder plugin adds three tools to the IDE's MCP server. Their n
   an earlier one, whose text is unchanged. Given finding numbers as `findings`, a comma-separated string such as
   `"2"` or `"1, 3"`, it answers for those findings only, whether open or not: each in full with its fix and its
   state (open, dismissed, fix applied, text edited, or set aside).
+- `specbinder_edit_spec`, from SpecBinder plugin 2026.23.0: changes the spec in its editor, leaving the author's
+  folds alone. [changing-a-spec-file.md](references/changing-a-spec-file.md) says when and how to use it.
 
 Reading the spec needs no tool of ours: the IDE's own file tools (`read_file`, or `get_file_text_by_path` on
 an IDE that lacks it) already return a file as the editor currently has it, unsaved changes included.
@@ -436,7 +438,9 @@ created.
   `specbinder_get_spec_review` with those numbers as `findings`, to see their current state. The author may have
   fixed, dismissed or set aside findings in the editor since your last call. Call it without `findings` only
   when you need the whole review, such as "go through the rest".
-- When you fix findings, edit the spec file directly. The edit closes the finding once its quoted text changes.
+- When you fix findings, edit the spec file directly, as
+  [changing-a-spec-file.md](references/changing-a-spec-file.md) says: in the IDE's editor when you can, so the
+  Rules and Examples the author folded stay folded. The edit closes the finding once its quoted text changes.
   Don't publish a new review just to remove the findings you fixed. Leave a `rename` fix to the author to apply
   in the IDE, which renames the spec's code with it; renaming the file yourself leaves that code behind.
 - Once a rename fix is applied, the spec has a new path: the tools answer for the spec only by that path, and

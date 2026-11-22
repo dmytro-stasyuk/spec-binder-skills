@@ -72,7 +72,10 @@ Then fix what refers across files:
   it. When you can't tell what a comment concerns, leave it in the original and name it in the report.
 
 Remove the moved blocks from the original, with the blank lines between them, so the blocks left are separated
-by one blank line as before.
+by one blank line as before. Change the original, its links and header comments included, as
+[changing-a-spec-file.md](../review-spec/references/changing-a-spec-file.md) says: in the IDE's editor when you
+can, every place in one call, so the Rules and Examples the author folded stay folded. Write the new files with
+your own file tools.
 
 ## 4. Move the code
 

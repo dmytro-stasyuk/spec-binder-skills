@@ -17,9 +17,10 @@ Claude Code and in Codex. It has no build: it is plugin manifests, a marketplace
   guidelines plus `strengths.md`: refresh the copies from `starter-guidelines/` before retaking the screenshots.
 
 The `review-spec` skill depends on MCP tools that the SpecBinder IntelliJ plugin adds to the IDE's MCP server:
-`specbinder_get_review_scope`, `specbinder_publish_spec_review` and `specbinder_get_spec_review`. Their names,
-parameters and result text are defined by that plugin, which is a separate project: when either side changes,
-update the other.
+`specbinder_get_review_scope`, `specbinder_publish_spec_review` and `specbinder_get_spec_review`. Every skill
+that changes a spec file depends on `specbinder_edit_spec` too, with the IDE's own `replace_text_in_file` as its
+fallback, as `skills/review-spec/references/changing-a-spec-file.md` says. Their names, parameters and result
+text are defined by that plugin, which is a separate project: when either side changes, update the other.
 
 - Stage changes with `git add` when done. The user commits.
 - Keep user-facing text free of Cucumber references. The plugin is presented as SpecBinder's.
