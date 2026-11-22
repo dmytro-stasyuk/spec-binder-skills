@@ -15,9 +15,9 @@ https://github.com/user-attachments/assets/0d52355f-a508-4166-817b-c7bbf325c2d1
 - IntelliJ IDEA 2025.2 or later, with the [SpecBinder plugin](https://plugins.jetbrains.com/plugin/30540-specbinder-beta-)
   2026.20.0 or later installed.
 - The IDE's MCP server enabled, with your agent connected to it. See the next section.
-- For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), for moving test code in
-  `separate-out-specs`, and for `--verify` in `move-under-new-spec` and `move-under-new-rule`: a Java project built with
-  Maven or Gradle.
+- For the skills that wire and run tests (`automate-spec`, `restructure-spec-folders`), for `extract-composite-step`,
+  for moving test code in `separate-out-specs`, and for `--verify` in `move-under-new-spec` and `move-under-new-rule`:
+  a Java project built with Maven or Gradle.
 
 ## Setup
 
@@ -122,6 +122,7 @@ file and cursor position from the IDE.
 | `restructure-spec-folders` | Restructures the spec folders so they reveal what the system does: by default by business capability and use case, never by technical layer or test type; or by a principle you give; or just tidies them. Moves each spec with its test class and the test code it shares, shows the plan first and rebuilds afterwards. |
 | `move-under-new-spec` | Moves the Rules and Examples you pick, by the lines you give with `--only-lines` or by title, under a new top-level Feature of their own in the same file, with a title and user story written for them. It narrows the original's title and story where they no longer fit what's left, trims each `Background:` to the steps its own Examples rely on, listing every step it removes, and links the two with `Out of scope` lines. With `--verify` it runs the spec's tests before and after and puts back any step an Example turns out to need; with `--as-review-finding` it publishes the change to the AI Review tab for you to apply instead; with `--own-file` it goes on to move the new Feature into a file of its own. |
 | `move-under-new-rule` | Moves the Examples you pick, by the lines you give with `--only-lines` or by title, under a new Rule of their own in the same spec, titled with the criterion they show and placed after the Rule it is closest to. It narrows the Rule they leave where it no longer fits what's left, and trims each Rule's `Background:` to the steps its own Examples rely on, listing every step it removes. With `--verify` it runs the spec's tests before and after and puts back any step an Example turns out to need; with `--as-review-finding` it publishes the change to the AI Review tab for you to apply instead. |
+| `extract-composite-step` | Makes imperative steps declarative. The steps you pick with `--only-lines`, or those it finds in the Examples, Rules, specs or folders you give, go under a new step stating the business fact they set up, carry out or check, as a SpecBinder composite step. The steps stay as they are, as its `*` sub-steps, so the test still calls the same step methods with the same values: only the values the new step states reach them from it. It does the same wherever those steps appear in the spec. It needs composite steps turned on for the spec, and says how ([options](#extracting-a-composite-step)). |
 | `separate-out-specs` | Moves the top-level Features of a spec file that holds several into spec files of their own, rewriting the links between them: every one but the first, or the ones you name or select with `--only-lines`, the first included, as long as one stays. Given several files or a folder, it does so for every file among them that holds more than one. In a Java project it also creates the new test classes, sorts the step methods between them and rebuilds. In IntelliJ IDEA, **Separate Out Specs into Their Own Files**, in the SpecBinder submenu of the Project view's and the spec editor's context menus, runs it on the files and folders selected, or on the specs selected in the editor. |
 
 ### Automating a spec
@@ -146,6 +147,28 @@ file and cursor position from the IDE.
 Values are separated by commas: `--implement=implement-using-subagent,refactor-using-subagent`. With SpecBinder
 IntelliJ plugin 2026.21.0 or later, the **Automate This Spec** button on the spec's toolbar automates the spec, or the
 part of it selected in the editor, in the spec's Claude Code session, and its menu sets these options.
+
+### Extracting a composite step
+
+`extract-composite-step` takes these options, or the same said in plain words:
+
+- `--only-lines=12-30` works on the lines given, such as those selected in the editor. Lines on steps alone put
+  those steps under one new step. A line on a title, or the lines of a whole Example, leaves the agent to find the
+  imperative steps there and group them, one new step per fact.
+- `--step="the customer checks out"` gives the new step's wording.
+- `--move-all-parameters-up` makes the new step state every value of the steps it replaces, labels such as field
+  and button names included. By default it states only the values the Example depends on.
+- `--only-selection` changes only what you pick. By default the same steps elsewhere in the spec go under the same
+  new step too.
+- `--verify` builds and runs the spec's tests before and after, and compares each Example's result.
+- `--as-review-finding` publishes the change to the AI Review tab for you to apply instead. When the steps you pick
+  look like more than one fact, a second finding offers them split, one new step per fact; applying either closes
+  the other.
+
+The new steps need composite steps turned on for the spec, which SpecBinder leaves off by default:
+`@Gherkin2JUnitOptions(enableCompositeSteps = true)` on the spec's marker class. The skill doesn't turn them on.
+Once they're on, a step already written with `*` in the specs that marker covers runs as a sub-step of the step
+above it.
 
 ## Project guidelines
 

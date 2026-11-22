@@ -1,7 +1,7 @@
 # Changing a spec file
 
 How a skill changes a spec file that already exists. Shared by `review-spec`, `automate-spec`,
-`move-under-new-rule`, `move-under-new-spec` and `separate-out-specs`.
+`move-under-new-rule`, `move-under-new-spec`, `separate-out-specs` and `extract-composite-step`.
 
 The author may have the spec open in IntelliJ IDEA, with Rules and Examples folded. A spec written over on disk is
 reloaded by the IDE, and the reload unfolds every fold the change spans: a moved Example or a new block at the end

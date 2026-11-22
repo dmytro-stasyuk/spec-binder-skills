@@ -315,6 +315,20 @@ Don't fall back to reviewing in the chat without the tools, unless the author as
      - **A spec without Rules whose Examples show several criteria:** wrap its Examples in one Rule per
        criterion, each titled with its criterion, keeping every Example unchanged and in its original order
        within its Rule.
+   - A finding on steps from a check that flags them for saying how the system is driven or inspected, where a
+     step would state the business fact or the user's intent instead, has a fix that keeps the test running those
+     steps. In the starter guidelines these are `declarative-steps`, for a procedure walked through step by step,
+     and `implementation-detail`, for UI mechanics or a technical mechanism in a step, such as a button to click or
+     an endpoint to call. Find the marker class that covers the spec and the `@Gherkin2JUnitOptions` that apply to
+     it, as [java-wiring.md](../automate-spec/references/java-wiring.md) says:
+     - **With `enableCompositeSteps = true`**, and `useStepKeywordInStepMethodName` off: the fix puts the steps,
+       even a single one, under a new step stating that fact or intent, as a composite step, as
+       [composite-steps.md](../extract-composite-step/references/composite-steps.md) says: `When I save the
+       invoice` with `* I click the Save button` under it. The steps stay as they are, as its `*` sub-steps, so
+       the test still calls the same step methods with the same values. Say so in the message.
+     - **Otherwise** the fix rewrites the steps as that one step. In a Java project, add in the message, in a
+       paragraph of its own, that the `extract-composite-step` skill can turn composite steps on and make the
+       change without changing what the test does, since the step this fix writes has no step method yet.
    - A finding about the spec file's name gives `rename` in place of `rewrite`: the file's new name alone, such as
      `"rename": "RefundOrder.specb"`, with no folder and keeping the file's extension. Put the finding on the spec's
      first line (`Ability:`), quoting its title, and say in the message what the name suggests the spec is about

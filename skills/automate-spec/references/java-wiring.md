@@ -1,7 +1,7 @@
 # Wiring a SpecBinder spec to Java (JUnit 5)
 
 How a spec file becomes a runnable JUnit 5 test, and how to write the code behind it. Shared by
-`automate-spec`, `separate-out-specs` and `restructure-spec-folders`.
+`automate-spec`, `separate-out-specs`, `restructure-spec-folders` and `extract-composite-step`.
 
 When this file and the project disagree, the project wins: read the generated code and copy what it does.
 

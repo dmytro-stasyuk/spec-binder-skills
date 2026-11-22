@@ -47,8 +47,15 @@ With `--only-lines`:
 By title: a title picks the Example it names. If it names a Rule instead, matches no Example, or matches several,
 ask.
 
-The Examples must come from one top-level block, since a Rule lives in one. If they come from several, say so and
-stop.
+The Examples must come from one top-level block, since a Rule lives in one. When they come from several, change
+nothing yet. Say so, propose what the author more likely wants, the likeliest first, and ask which to do:
+- only the Examples of one block, naming each block's, when the lines may have run past the ones meant;
+- a new Rule in each block for the Examples picked from it, when each block's show a criterion of their own, each
+  written as below; with `--as-review-finding`, one finding per block, published together;
+- moving them under a new spec of their own with `move-under-new-spec`, when they show one criterion that none of
+  their blocks is about.
+
+Do what the author picks, or nothing when none fits.
 
 When the picked Examples are every Example of an original Rule, judge whether they show its criterion:
 - when they do, they already have a Rule of their own: say so and stop. If Examples of other Rules are picked

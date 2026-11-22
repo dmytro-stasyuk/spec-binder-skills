@@ -9,20 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 ### Added
 
 - New `move-under-new-spec` skill moves the Rules and Examples you pick, by the lines you give with `--only-lines`
-  or by title, under a new top-level Feature of their own in the same spec file, right after the one they came
-  from. It writes a title and user story for them, narrows the original's title and story where they no longer
-  fit what's left, and links the two with `Out of scope` lines. Examples picked without their Rule go under a Rule
-  that states what they show. Each `Background:` keeps only the steps its own Examples rely on, keeping any step
-  in doubt, and every step removed is listed. With `--verify`, in a Java project, it runs the spec's tests before
-  and after and puts back any step an Example turns out to need. With `--as-review-finding`, it publishes the
-  change as a split finding in the AI Review tab for you to apply or dismiss, instead of writing it. With
-  `--own-file`, it goes on to move the new Feature into a file of its own.
+  or by title, under a new top-level Feature of their own in the same spec file, right after the one they came from.
+  It writes a title and user story for them, narrows the original's title and story where they no longer fit what's
+  left, and links the two with `Out of scope` lines. Examples picked without their Rule go under a Rule that states
+  what they show. When what you pick would leave a Feature with nothing in it, it changes nothing and asks what you
+  want instead, suggesting a new title and story for that Feature, a file of its own, or leaving part of it behind.
+  Each `Background:` keeps only the steps its own Examples rely on, keeping any step in doubt, and every step
+  removed is listed. With `--verify`, in a Java project, it runs the spec's tests before and after and puts back any
+  step an Example turns out to need. With `--as-review-finding`, it publishes the change as a split finding in the
+  AI Review tab for you to apply or dismiss, instead of writing it. With `--own-file`, it goes on to move the new
+  Feature into a file of its own.
 - New `move-under-new-rule` skill moves the Examples you pick, by the lines you give with `--only-lines` or by
   title, under a new Rule of their own in the same spec, titled with the criterion they show and placed after the
   Rule it is closest to. It narrows the Rule they leave where it no longer fits what's left, and trims each Rule's
   `Background:` to the steps its own Examples rely on, keeping any step in doubt and listing every step removed.
   When the Examples you pick are all of a Rule's Examples and show its criterion, it says they already have a Rule
-  of their own and changes nothing. `--verify` and `--as-review-finding` work as in `move-under-new-spec`.
+  of their own and changes nothing. When the Examples you pick are in more than one Feature, it changes nothing and
+  asks what you want instead, suggesting only one Feature's Examples, a new Rule in each, or a new Feature for them.
+  `--verify` and `--as-review-finding` work as in `move-under-new-spec`.
 - `review-spec` and `automate-spec` understand data tables written vertically, whose first row opens with `!` in
   place of the first `|`. In the starter `format` guidelines, a table line over 140 characters is fixed by turning
   the table around, from normal to vertical or back, when every line then fits. `automate-spec` wires a vertical
@@ -142,6 +146,10 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   new name keeps any key the old one has. With SpecBinder IntelliJ plugin 2026.20.0 or later, applying the fix
   opens the IDE's Rename dialog on the new name, which renames the spec's test code with it; with an older
   plugin, the finding gives the new name in its message.
+- New `extract-composite-step` skill makes imperative steps declarative in a Java project: the steps you pick, or
+  those it finds in the Examples, Rules or specs you give, go under a new step stating the business fact, as their
+  `*` sub-steps. The test still runs the same steps with the same values, and the same steps elsewhere in the spec
+  get the same new step. It needs composite steps turned on for the spec, and says so.
 
 ### Changed
 
@@ -212,6 +220,10 @@ and this project adheres to [Semantic Versioning](https://semver.org).
   folded Rule the skill adds an Example to opens, so you see it, and one Undo in the IDE takes the whole change
   back. This needs the SpecBinder IntelliJ plugin 2026.23.0 or later; with an older one your folds are kept too,
   but a change takes one Undo per place it touches.
+- When composite steps are on for a spec, a review's fix for steps that walk through a procedure or name interface
+  detail, such as a button to click, now puts them under a new step stating the business fact, instead of
+  rewriting them, so applying it keeps the test running. With composite steps off, the finding says
+  `extract-composite-step` can make the change safely.
 
 ### Fixed
 

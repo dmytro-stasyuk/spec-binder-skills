@@ -50,9 +50,17 @@ With `--only-lines`:
 By title: a title picks the Rule or Example it names, as a line on it would. If a title matches no Rule or Example,
 or matches several, ask.
 
-The parts may come from more than one block of the file. All of them go into the one new block. If they would
-leave a block with no Rule or Example, say so and stop: moving everything under a new header is rewording that
-block, not separating anything out.
+The parts may come from more than one block of the file. All of them go into the one new block. When they would
+leave a block with no Rule or Example, change nothing yet: moving all of a block under a new header only rewords
+that block. Say so, propose what the author more likely wants, the likeliest first, and ask which to do:
+- a new title and story for that block, written as section 3 writes the new block's, when every part comes from
+  it;
+- moving that block into a file of its own with `separate-out-specs`, when the file holds other blocks;
+- moving the parts of the other blocks under that block instead, its title and story widened to take them in,
+  when the parts come from several;
+- moving only some of the parts, so the block keeps the rest, naming the ones that would stay.
+
+Do what the author picks, or nothing when none fits.
 
 ## 2. Place the parts in the new block
 
